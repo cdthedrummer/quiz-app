@@ -2,63 +2,94 @@ import type { Question } from './types';
 
 export const questions: Question[] = [
   {
-    id: 1,
-    text: "How do you best pick up new skills?",
+    text: "What's your ideal way to spend a weekend?",
     type: "single",
     options: [
-      { text: "Reading books and articles", stats: ["intelligence"] },
-      { text: "Watching tutorials", stats: ["intelligence", "wisdom"] },
-      { text: "Hands-on practice", stats: ["dexterity"] },
-      { text: "Learning with others", stats: ["charisma"] }
+      {
+        text: "Physical activities and sports",
+        stats: ["strength", "dexterity"]
+      },
+      {
+        text: "Reading and learning new things",
+        stats: ["intelligence", "wisdom"]
+      },
+      {
+        text: "Socializing with friends",
+        stats: ["charisma", "wisdom"]
+      },
+      {
+        text: "Strategic games and puzzles",
+        stats: ["intelligence", "dexterity"]
+      }
     ]
   },
   {
-    id: 2,
-    text: "What's your go-to way to stay healthy?",
+    text: "When faced with a challenge, you prefer to...",
+    type: "single",
+    options: [
+      {
+        text: "Take charge and lead",
+        stats: ["strength", "charisma"]
+      },
+      {
+        text: "Analyze and plan",
+        stats: ["intelligence", "wisdom"]
+      },
+      {
+        text: "Find creative solutions",
+        stats: ["dexterity", "intelligence"]
+      },
+      {
+        text: "Seek advice and collaborate",
+        stats: ["wisdom", "charisma"]
+      }
+    ]
+  },
+  {
+    text: "Which activities interest you? (Select all that apply)",
     type: "multiple",
     options: [
-      { text: "Healthy meal planning", stats: ["constitution"] },
-      { text: "Regular exercise", stats: ["strength", "dexterity"] },
-      { text: "Meditation/mindfulness", stats: ["wisdom"] },
-      { text: "Regular health check-ups", stats: ["constitution"] }
+      {
+        text: "Martial arts or combat sports",
+        stats: ["strength", "dexterity"]
+      },
+      {
+        text: "Public speaking or performance",
+        stats: ["charisma", "wisdom"]
+      },
+      {
+        text: "Research and study",
+        stats: ["intelligence", "wisdom"]
+      },
+      {
+        text: "Acrobatics or dance",
+        stats: ["dexterity", "charisma"]
+      }
     ]
   },
   {
-    id: 3,
-    text: "What activity energizes you most?",
-    type: "single",
-    options: [
-      { text: "Solo workouts", stats: ["strength"] },
-      { text: "Team sports", stats: ["charisma", "dexterity"] },
-      { text: "Outdoor adventures", stats: ["constitution"] },
-      { text: "Creative projects", stats: ["intelligence"] }
-    ]
-  },
-  {
-    id: 4,
-    text: "How do you tackle challenges?",
-    type: "single",
-    options: [
-      { text: "Careful planning", stats: ["intelligence", "wisdom"] },
-      { text: "Trial and error", stats: ["dexterity", "strength"] },
-      { text: "Ask for advice", stats: ["charisma"] },
-      { text: "Trust your instincts", stats: ["wisdom"] }
-    ]
-  },
-  {
-    id: 5,
-    text: "Rate your workout enthusiasm:",
+    text: "How much do you value physical training?",
     type: "scale",
-    min: 1,
-    max: 3,
     stat: "strength"
   },
   {
-    id: 6,
-    text: "How much do you enjoy meeting new people?",
+    text: "How comfortable are you with complex problem-solving?",
     type: "scale",
-    min: 1,
-    max: 3,
+    stat: "intelligence"
+  },
+  {
+    text: "How naturally do social situations come to you?",
+    type: "scale",
     stat: "charisma"
+  },
+  {
+    text: "How well do you adapt to changing situations?",
+    type: "scale",
+    stat: "dexterity"
+  },
+  {
+    text: "How often do others come to you for advice?",
+    type: "scale",
+    stat: "wisdom"
   }
 ];
