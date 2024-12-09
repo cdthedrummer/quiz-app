@@ -2,42 +2,42 @@ import type { Question } from './types';
 
 export const questions: Question[] = [
   {
-    text: "In a group project, you...",
+    text: "Pick your dream job:",
     type: "single",
     options: [
-      { text: "Take the lead", stats: ["strength", "charisma"] },
-      { text: "Plan the strategy", stats: ["intelligence", "wisdom"] },
-      { text: "Solve problems creatively", stats: ["dexterity", "intelligence"] },
-      { text: "Keep the team united", stats: ["charisma", "wisdom"] }
+      { text: "Professional Athlete", stats: ["strength", "dexterity"] },
+      { text: "Detective", stats: ["intelligence", "wisdom"] },
+      { text: "Diplomat", stats: ["charisma", "wisdom"] },
+      { text: "Master Thief", stats: ["dexterity", "intelligence"] }
     ]
   },
   {
-    text: "Your perfect evening involves...",
+    text: "Your party is ambushed. You...",
     type: "single",
     options: [
-      { text: "Intense workout", stats: ["strength", "dexterity"] },
-      { text: "Deep conversations", stats: ["wisdom", "charisma"] },
-      { text: "Learning something new", stats: ["intelligence", "wisdom"] },
-      { text: "Competitive games", stats: ["dexterity", "intelligence"] }
+      { text: "Fight head-on", stats: ["strength", "dexterity"] },
+      { text: "Analyze their weakness", stats: ["intelligence", "wisdom"] },
+      { text: "Negotiate peace", stats: ["charisma", "wisdom"] },
+      { text: "Sneak past them", stats: ["dexterity", "intelligence"] }
     ]
   },
   {
-    text: "Pick your interests:",
+    text: "Choose your powers:",
     type: "multiple",
     options: [
-      { text: "Sports & fitness", stats: ["strength", "dexterity"] },
-      { text: "Teaching others", stats: ["wisdom", "charisma"] },
-      { text: "Problem solving", stats: ["intelligence", "dexterity"] },
-      { text: "Team leadership", stats: ["charisma", "strength"] }
+      { text: "Super strength", stats: ["strength", "dexterity"] },
+      { text: "Mind control", stats: ["charisma", "wisdom"] },
+      { text: "Teleportation", stats: ["dexterity", "intelligence"] },
+      { text: "Time manipulation", stats: ["intelligence", "wisdom"] }
     ]
   },
   {
-    text: "How much do you enjoy physical challenges?",
+    text: "Rate your fighting spirit",
     type: "scale",
     stat: "strength"
   },
   {
-    text: "How often do you outsmart obstacles?",
+    text: "Rate your quick thinking",
     type: "scale",
     stat: "intelligence"
   }
