@@ -2,94 +2,43 @@ import type { Question } from './types';
 
 export const questions: Question[] = [
   {
-    text: "What's your ideal way to spend a weekend?",
+    text: "In a group project, you...",
     type: "single",
     options: [
-      {
-        text: "Physical activities and sports",
-        stats: ["strength", "dexterity"]
-      },
-      {
-        text: "Reading and learning new things",
-        stats: ["intelligence", "wisdom"]
-      },
-      {
-        text: "Socializing with friends",
-        stats: ["charisma", "wisdom"]
-      },
-      {
-        text: "Strategic games and puzzles",
-        stats: ["intelligence", "dexterity"]
-      }
+      { text: "Take the lead", stats: ["strength", "charisma"] },
+      { text: "Plan the strategy", stats: ["intelligence", "wisdom"] },
+      { text: "Solve problems creatively", stats: ["dexterity", "intelligence"] },
+      { text: "Keep the team united", stats: ["charisma", "wisdom"] }
     ]
   },
   {
-    text: "When faced with a challenge, you prefer to...",
+    text: "Your perfect evening involves...",
     type: "single",
     options: [
-      {
-        text: "Take charge and lead",
-        stats: ["strength", "charisma"]
-      },
-      {
-        text: "Analyze and plan",
-        stats: ["intelligence", "wisdom"]
-      },
-      {
-        text: "Find creative solutions",
-        stats: ["dexterity", "intelligence"]
-      },
-      {
-        text: "Seek advice and collaborate",
-        stats: ["wisdom", "charisma"]
-      }
+      { text: "Intense workout", stats: ["strength", "dexterity"] },
+      { text: "Deep conversations", stats: ["wisdom", "charisma"] },
+      { text: "Learning something new", stats: ["intelligence", "wisdom"] },
+      { text: "Competitive games", stats: ["dexterity", "intelligence"] }
     ]
   },
   {
-    text: "Which activities interest you? (Select all that apply)",
+    text: "Pick your interests:",
     type: "multiple",
     options: [
-      {
-        text: "Martial arts or combat sports",
-        stats: ["strength", "dexterity"]
-      },
-      {
-        text: "Public speaking or performance",
-        stats: ["charisma", "wisdom"]
-      },
-      {
-        text: "Research and study",
-        stats: ["intelligence", "wisdom"]
-      },
-      {
-        text: "Acrobatics or dance",
-        stats: ["dexterity", "charisma"]
-      }
+      { text: "Sports & fitness", stats: ["strength", "dexterity"] },
+      { text: "Teaching others", stats: ["wisdom", "charisma"] },
+      { text: "Problem solving", stats: ["intelligence", "dexterity"] },
+      { text: "Team leadership", stats: ["charisma", "strength"] }
     ]
   },
   {
-    text: "How much do you value physical training?",
+    text: "How much do you enjoy physical challenges?",
     type: "scale",
     stat: "strength"
   },
   {
-    text: "How comfortable are you with complex problem-solving?",
+    text: "How often do you outsmart obstacles?",
     type: "scale",
     stat: "intelligence"
-  },
-  {
-    text: "How naturally do social situations come to you?",
-    type: "scale",
-    stat: "charisma"
-  },
-  {
-    text: "How well do you adapt to changing situations?",
-    type: "scale",
-    stat: "dexterity"
-  },
-  {
-    text: "How often do others come to you for advice?",
-    type: "scale",
-    stat: "wisdom"
   }
 ];
