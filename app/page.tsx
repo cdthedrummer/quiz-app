@@ -1,4 +1,23 @@
-[Previous file content with these specific changes:
+'use client';
 
-1. Removed duplicate setAnswers(newAnswers) at line 53
-2. Inside handleAnswer function, moved setAnswers(newAnswers) inside both the if and else blocks so it's called at the right time]
+[Previous content with these changes to handleAnswer():
+
+    if (question.type === "multiple") {
+      const currentAnswers = (answers[currentQuestion] as number[]) || [];
+      const numValue = typeof value === 'string' ? parseInt(value) : value;
+      const newValue = currentAnswers.includes(numValue)
+        ? currentAnswers.filter(v => v !== numValue)
+        : [...currentAnswers, numValue];
+      newAnswers[currentQuestion] = newValue;
+      setAnswers(newAnswers);
+    } else {
+      const numValue = typeof value === 'string' ? parseInt(value) : value;
+      newAnswers[currentQuestion] = numValue;
+      setAnswers(newAnswers);
+      
+      if (currentQuestion < questions.length - 1) {
+        setCurrentQuestion(prev => prev + 1);
+      } else {
+        calculateStats(newAnswers);
+      }
+    }]
