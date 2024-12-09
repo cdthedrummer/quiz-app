@@ -7,70 +7,68 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
-import './globals.css';
-
-// ... [Keep all interfaces and type definitions the same until archetypes] ...
-
-const archetypes: Archetype[] = [
-  {
-    name: "Knight",
-    description: "A charismatic warrior who leads from the front, combining physical prowess with natural leadership.",
-    primaryStat: "strength",
-    secondaryStat: "charisma",
-    emoji: "⚔️",
-    thresholds: { primary: 4, secondary: 3 }
-  },
-  {
-    name: "Sage",
-    description: "A wise scholar who combines deep knowledge with intuitive understanding.",
-    primaryStat: "intelligence",
-    secondaryStat: "wisdom",
-    emoji: "📚",
-    thresholds: { primary: 4, secondary: 3 }
-  },
-  {
-    name: "Ranger",
-    description: "A nimble explorer who combines physical agility with rugged endurance.",
-    primaryStat: "dexterity",
-    secondaryStat: "constitution",
-    emoji: "🏹",
-    thresholds: { primary: 4, secondary: 3 }
-  }
-];
-
-// Add the determineArchetype function
-const determineArchetype = (stats: Stat): Archetype => {
-  let bestMatch = archetypes[0];
-  let highestScore = -1;
-
-  archetypes.forEach(archetype => {
-    const primaryStatValue = stats[archetype.primaryStat];
-    const secondaryStatValue = stats[archetype.secondaryStat];
-    
-    // Calculate a score based on primary and secondary stats
-    const score = (primaryStatValue * 2) + secondaryStatValue;
-    
-    if (score > highestScore) {
-      highestScore = score;
-      bestMatch = archetype;
-    }
-  });
-
-  return bestMatch;
-};
-
-const questions: Question[] = [
-  // ... [Keep all questions the same] ...
-];
-
-const statEmojis: Record<keyof Stat, string> = {
-  // ... [Keep emojis the same] ...
-};
+import { determineArchetype } from './utils/determineArchetype';
+import type { Answers, Stat } from './types';
+import { questions } from './questions';
+import { statEmojis, INITIAL_STATS } from './constants';
 
 const QuizApp = () => {
-  // ... [Keep all the component code the same until RadioGroup] ...
+  const [currentQuestion, setCurrentQuestion] = useState<number>(0);
+  const [answers, setAnswers] = useState<Answers>({});
+  const [stats, setStats] = useState<Stat>(INITIAL_STATS);
+  const [showResults, setShowResults] = useState<boolean>(false);
 
-  // Update RadioGroup value types
+  const handleAnswer = (value: string | number) => {
+    const question = questions[currentQuestion];
+    let newAnswers = { ...answers };
+
+    if (question.type === "multiple") {
+      const currentAnswers = (answers[currentQuestion] as number[]) || [];
+      const numValue = typeof value === 'string' ? parseInt(value) : value;
+      const newValue = currentAnswers.includes(numValue)
+        ? currentAnswers.filter(v => v !== numValue)
+        : [...currentAnswers, numValue];
+      newAnswers[currentQuestion] = newValue;
+    } else {
+      const numValue = typeof value === 'string' ? parseInt(value) : value;
+      newAnswers[currentQuestion] = numValue;
+      
+      // Auto-advance for single/scale questions
+      if (currentQuestion < questions.length - 1) {
+        setTimeout(() => setCurrentQuestion(currentQuestion + 1), 300);
+      } else {
+        calculateStats(newAnswers);
+      }
+    }
+
+    setAnswers(newAnswers);
+  };
+
+  const calculateStats = (finalAnswers: Answers) => {
+    const newStats = { ...INITIAL_STATS };
+    
+    questions.forEach((question, index) => {
+      const answer = finalAnswers[index];
+      
+      if (question.type === "scale") {
+        newStats[question.stat] += answer as number;
+      } else if (question.type === "single" && typeof answer === "number") {
+        question.options[answer].stats.forEach(stat => {
+          newStats[stat] += 1;
+        });
+      } else if (question.type === "multiple" && Array.isArray(answer)) {
+        answer.forEach(optionIndex => {
+          question.options[optionIndex].stats.forEach(stat => {
+            newStats[stat] += 1;
+          });
+        });
+      }
+    });
+
+    setStats(newStats);
+    setShowResults(true);
+  };
+
   const renderQuestion = () => {
     const question = questions[currentQuestion];
 
@@ -79,7 +77,7 @@ const QuizApp = () => {
         return (
           <RadioGroup
             value={answers[currentQuestion]?.toString()}
-            onValueChange={(val) => handleAnswer(parseInt(val))}
+            onValueChange={handleAnswer}
             className="space-y-4"
           >
             {question.options.map((option, index) => (
@@ -96,7 +94,7 @@ const QuizApp = () => {
             <Checkbox
               id={`option-${index}`}
               checked={(answers[currentQuestion] as number[] || []).includes(index)}
-              onCheckedChange={() => handleAnswer(index)}
+              onCheckedChange={(checked) => handleAnswer(checked ? index : -1)}
             />
             <Label htmlFor={`option-${index}`}>{option.text}</Label>
           </div>
@@ -105,7 +103,7 @@ const QuizApp = () => {
         return (
           <RadioGroup
             value={answers[currentQuestion]?.toString()}
-            onValueChange={(val) => handleAnswer(parseInt(val))}
+            onValueChange={handleAnswer}
             className="space-y-4"
           >
             {[1, 2, 3].map((value) => (
@@ -121,7 +119,122 @@ const QuizApp = () => {
     }
   };
 
-  // ... [Keep the rest of the component the same] ...
+  const archetype = showResults ? determineArchetype(stats) : null;
+
+  return (
+    <div className="min-h-screen bg-gray-50 py-8 px-4">
+      <div className="max-w-2xl mx-auto">
+        <Card className="card shadow-lg">
+          <CardHeader className="border-b border-gray-200 pb-6">
+            <CardTitle className="text-2xl font-bold text-center">Character Builder Quiz</CardTitle>
+            {!showResults && (
+              <div className="mt-4">
+                <div className="text-sm text-gray-600 mb-2 flex justify-between">
+                  <span>Question {currentQuestion + 1} of {questions.length}</span>
+                  <span className="text-blue-600 font-medium">
+                    {Math.round((currentQuestion / questions.length) * 100)}% Complete
+                  </span>
+                </div>
+                <Progress 
+                  value={(currentQuestion / questions.length) * 100} 
+                  className="h-2"
+                />
+              </div>
+            )}
+          </CardHeader>
+          <CardContent className="pt-6">
+            {!showResults ? (
+              <>
+                <h2 className="text-xl font-semibold text-gray-800 mb-6">
+                  {questions[currentQuestion].text}
+                </h2>
+                <div className="space-y-4">
+                  {renderQuestion()}
+                </div>
+                {questions[currentQuestion].type === "multiple" && (
+                  <Button 
+                    className="w-full mt-6"
+                    onClick={() => {
+                      if (currentQuestion === questions.length - 1) {
+                        calculateStats(answers);
+                      } else {
+                        setCurrentQuestion(currentQuestion + 1);
+                      }
+                    }}
+                  >
+                    {currentQuestion === questions.length - 1 ? "See Results" : "Next Question"}
+                  </Button>
+                )}
+              </>
+            ) : (
+              <div className="space-y-8">
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900 mb-6">Your Character Stats</h2>
+                  <div className="space-y-4">
+                    {Object.entries(stats).map(([stat, value]) => (
+                      <div key={stat} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                        <div className="flex items-center gap-3">
+                          <span className="text-2xl">{statEmojis[stat as keyof typeof statEmojis]}</span>
+                          <span className="font-medium capitalize text-gray-700">{stat}</span>
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <span className="font-bold text-gray-900">{value} points</span>
+                          <div className="w-32 bg-gray-200 rounded-full h-2 overflow-hidden">
+                            <div 
+                              className="bg-blue-500 h-full transition-all duration-300"
+                              style={{ width: `${(value / 10) * 100}%` }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {archetype && (
+                  <div className="mt-8 p-6 bg-white rounded-lg shadow-sm border border-gray-200">
+                    <div className="flex items-center gap-3 mb-4">
+                      <span className="text-4xl">{archetype.emoji}</span>
+                      <h3 className="text-2xl font-bold text-gray-900">
+                        You are a {archetype.name}!
+                      </h3>
+                    </div>
+                    <p className="text-gray-700 text-lg mb-4">
+                      {archetype.description}
+                    </p>
+                    <div className="text-gray-600 mb-4">
+                      Driven by {statEmojis[archetype.primaryStat]} {archetype.primaryStat} 
+                      and supported by {statEmojis[archetype.secondaryStat]} {archetype.secondaryStat}
+                    </div>
+                    <div className="mt-4">
+                      <h4 className="font-semibold text-gray-800 mb-2">Recommended Activities:</h4>
+                      <ul className="list-disc list-inside space-y-1 text-gray-600">
+                        {archetype.recommendations.map((rec, index) => (
+                          <li key={index}>{rec}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                )}
+
+                <Button
+                  className="w-full mt-8"
+                  onClick={() => {
+                    setCurrentQuestion(0);
+                    setAnswers({});
+                    setStats(INITIAL_STATS);
+                    setShowResults(false);
+                  }}
+                >
+                  Take Quiz Again
+                </Button>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
 };
 
 export default QuizApp;
