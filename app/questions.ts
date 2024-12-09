@@ -2,43 +2,48 @@ import type { Question } from './types';
 
 export const questions: Question[] = [
   {
-    text: "Pick your dream job:",
+    text: "When working on a project, you prefer to:",
     type: "single",
     options: [
-      { text: "Professional Athlete", stats: ["strength", "dexterity"] },
-      { text: "Detective", stats: ["intelligence", "wisdom"] },
-      { text: "Diplomat", stats: ["charisma", "wisdom"] },
-      { text: "Master Thief", stats: ["dexterity", "intelligence"] }
+      { text: "Take action and lead by example", stats: ["strength", "charisma"] },
+      { text: "Research and analyze options", stats: ["intelligence", "wisdom"] },
+      { text: "Find creative solutions", stats: ["dexterity", "intelligence"] },
+      { text: "Build team consensus", stats: ["wisdom", "charisma"] }
     ]
   },
   {
-    text: "Your party is ambushed. You...",
+    text: "How do you typically handle stress?",
     type: "single",
     options: [
-      { text: "Fight head-on", stats: ["strength", "dexterity"] },
-      { text: "Analyze their weakness", stats: ["intelligence", "wisdom"] },
-      { text: "Negotiate peace", stats: ["charisma", "wisdom"] },
-      { text: "Sneak past them", stats: ["dexterity", "intelligence"] }
+      { text: "Exercise or physical activity", stats: ["strength", "dexterity"] },
+      { text: "Talk it through with others", stats: ["charisma", "wisdom"] },
+      { text: "Analyze and problem-solve", stats: ["intelligence", "wisdom"] },
+      { text: "Quick action to resolve it", stats: ["dexterity", "strength"] }
     ]
   },
   {
-    text: "Choose your powers:",
+    text: "Select all activities you enjoy:",
     type: "multiple",
     options: [
-      { text: "Super strength", stats: ["strength", "dexterity"] },
-      { text: "Mind control", stats: ["charisma", "wisdom"] },
-      { text: "Teleportation", stats: ["dexterity", "intelligence"] },
-      { text: "Time manipulation", stats: ["intelligence", "wisdom"] }
+      { text: "Physical training", stats: ["strength", "dexterity"] },
+      { text: "Teaching others", stats: ["wisdom", "charisma"] },
+      { text: "Strategic planning", stats: ["intelligence", "wisdom"] },
+      { text: "Group leadership", stats: ["charisma", "strength"] }
     ]
   },
   {
-    text: "Rate your fighting spirit",
+    text: "How comfortable are you with physical challenges?",
     type: "scale",
     stat: "strength"
   },
   {
-    text: "Rate your quick thinking",
+    text: "How often do you learn new skills?",
     type: "scale",
     stat: "intelligence"
+  },
+  {
+    text: "Rate your adaptability to change:",
+    type: "scale",
+    stat: "dexterity"
   }
 ];
