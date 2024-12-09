@@ -1,4 +1,5 @@
-import { Stat, Archetype } from '../types';
+import type { Stat, Archetype } from '../types';
+import { archetypes } from '../archetypes';
 
 export const determineArchetype = (stats: Stat): Archetype => {
   let bestMatch = archetypes[0];
