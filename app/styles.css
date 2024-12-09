@@ -1,0 +1,15 @@
+.bg-card {
+    background-color: white !important;
+  }
+  
+  .text-card-foreground {
+    color: #1a1a1a !important;
+  }
+  
+  h2, h3, span, label {
+    color: #1a1a1a !important;
+  }
+  
+  .progress-bar {
+    background-color: #3b82f6 !important;
+  }
