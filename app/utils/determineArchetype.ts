@@ -1,22 +1,29 @@
-import type { Stat, Archetype } from '../types';
 import { archetypes } from '../archetypes';
+import type { Stat } from '../types';
 
-export const determineArchetype = (stats: Stat): Archetype => {
-  let bestMatch = archetypes[0];
-  let highestScore = -1;
+export function determineArchetype(stats: Stat) {
+  // Find the two highest stats
+  let highestStat: keyof Stat = 'strength';
+  let secondHighestStat: keyof Stat = 'charisma';
+  let highestValue = -1;
+  let secondHighestValue = -2;
 
-  archetypes.forEach(archetype => {
-    const primaryStatValue = stats[archetype.primaryStat];
-    const secondaryStatValue = stats[archetype.secondaryStat];
-    
-    // Calculate a score based on primary and secondary stats
-    const score = (primaryStatValue * 2) + secondaryStatValue;
-    
-    if (score > highestScore) {
-      highestScore = score;
-      bestMatch = archetype;
+  Object.entries(stats).forEach(([stat, value]) => {
+    if (value > highestValue) {
+      secondHighestValue = highestValue;
+      secondHighestStat = highestStat;
+      highestValue = value;
+      highestStat = stat as keyof Stat;
+    } else if (value > secondHighestValue) {
+      secondHighestValue = value;
+      secondHighestStat = stat as keyof Stat;
     }
   });
 
-  return bestMatch;
-};
+  // Find matching archetype
+  return archetypes.find(
+    archetype => 
+      archetype.primaryStat === highestStat && 
+      archetype.secondaryStat === secondHighestStat
+  ) || archetypes[0]; // Default to Knight if no match
+}
