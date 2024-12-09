@@ -7,72 +7,100 @@ export type Archetype = {
   primaryStat: keyof Stat;
   secondaryStat: keyof Stat;
   recommendations: string[];
+  improvementTips: {
+    [key in keyof Stat]?: string[];
+  };
 };
 
 export const archetypes: Archetype[] = [
   {
     name: 'Knight',
     emoji: '⚔️',
-    description: 'You are a valiant warrior who combines physical prowess with unwavering honor. Your strength serves a noble purpose, and your charisma inspires others to follow your lead.',
+    description: 'You combine physical prowess with inspiring leadership. Your strength serves a noble purpose, and your charisma naturally draws others to your cause.',
     primaryStat: 'strength',
     secondaryStat: 'charisma',
     recommendations: [
-      'Join or start a martial arts club',
-      'Organize team sports events',
-      'Take on leadership roles in community projects',
-      'Practice public speaking'
-    ]
+      'Lead group fitness activities',
+      'Coach team sports',
+      'Organize community events',
+      'Train others in physical skills'
+    ],
+    improvementTips: {
+      intelligence: ['Join a book club', 'Take online courses', 'Learn a new language'],
+      wisdom: ['Practice meditation', 'Mentor others', 'Study philosophy'],
+      dexterity: ['Try yoga or dance', 'Learn juggling', 'Practice precision sports']
+    }
   },
   {
     name: 'Mystic',
     emoji: '🔮',
-    description: 'You possess deep wisdom and an intuitive understanding of the mysteries of life. Your intelligence guides your spiritual journey, while your wisdom helps others find their path.',
+    description: 'Your intelligence and wisdom give you deep insight into both knowledge and human nature. You excel at understanding complex systems and guiding others.',
     primaryStat: 'intelligence',
     secondaryStat: 'wisdom',
     recommendations: [
-      'Start a meditation practice',
       'Lead study groups',
-      'Write philosophical essays',
-      'Mentor others in their personal growth'
-    ]
+      'Write educational content',
+      'Teach complex topics',
+      'Provide thoughtful advice'
+    ],
+    improvementTips: {
+      strength: ['Start with bodyweight exercises', 'Try progressive resistance training', 'Join guided fitness classes'],
+      charisma: ['Join Toastmasters', 'Practice active listening', 'Engage in group activities'],
+      dexterity: ['Take up painting', 'Practice typing skills', 'Try coordination exercises']
+    }
   },
   {
     name: 'Rogue',
     emoji: '🗡️',
-    description: 'Quick-witted and agile, you excel at finding creative solutions to complex problems. Your dexterity keeps you one step ahead, while your intelligence helps you plan the perfect strategy.',
+    description: 'Your quick wit matches your quick movements. You excel at finding creative solutions and adapting rapidly to new situations.',
     primaryStat: 'dexterity',
     secondaryStat: 'intelligence',
     recommendations: [
-      'Take up parkour or rock climbing',
-      'Learn sleight of hand tricks',
-      'Study puzzle-solving techniques',
-      'Practice improvisation'
-    ]
+      'Take up parkour or climbing',
+      'Learn sleight of hand',
+      'Master quick problem-solving',
+      'Practice speed skills'
+    ],
+    improvementTips: {
+      strength: ['Start calisthenics', 'Try rock climbing', 'Practice bodyweight exercises'],
+      wisdom: ['Keep a reflection journal', 'Study decision-making', 'Practice mindfulness'],
+      charisma: ['Join improv classes', 'Practice storytelling', 'Engage in team sports']
+    }
   },
   {
     name: 'Sage',
     emoji: '📚',
-    description: 'A seeker of knowledge and truth, you combine deep wisdom with powerful intellect. Your understanding of both facts and human nature makes you an invaluable advisor.',
+    description: 'You combine deep wisdom with keen intellect. Your understanding of both facts and human nature makes you an invaluable advisor and teacher.',
     primaryStat: 'wisdom',
     secondaryStat: 'intelligence',
     recommendations: [
-      'Start a book club',
-      'Teach in your area of expertise',
-      'Write educational content',
-      'Provide counseling or advice'
-    ]
+      'Mentor others',
+      'Lead discussion groups',
+      'Write advice columns',
+      'Teach life skills'
+    ],
+    improvementTips: {
+      strength: ['Start gentle exercise routines', 'Try tai chi', 'Practice yoga'],
+      dexterity: ['Learn calligraphy', 'Practice fine motor skills', 'Try balance exercises'],
+      charisma: ['Join discussion groups', 'Practice public speaking', 'Lead small workshops']
+    }
   },
   {
     name: 'Diplomat',
     emoji: '🤝',
-    description: 'You excel at bringing people together and finding common ground. Your charisma draws others in, while your wisdom helps you understand their deepest motivations.',
+    description: 'Your charisma and wisdom make you a natural mediator. You excel at bringing people together and finding peaceful solutions to conflicts.',
     primaryStat: 'charisma',
     secondaryStat: 'wisdom',
     recommendations: [
-      'Join debate clubs',
+      'Lead negotiations',
+      'Organize social events',
       'Mediate conflicts',
-      'Organize community events',
-      'Lead team-building activities'
-    ]
+      'Build community connections'
+    ],
+    improvementTips: {
+      strength: ['Join group fitness classes', 'Try team sports', 'Practice partner exercises'],
+      intelligence: ['Read current events', 'Study psychology', 'Learn about different cultures'],
+      dexterity: ['Take dance classes', 'Try social sports', 'Practice public speaking gestures']
+    }
   }
 ];
