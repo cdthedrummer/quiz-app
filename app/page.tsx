@@ -33,9 +33,10 @@ const QuizApp = () => {
       const numValue = typeof value === 'string' ? parseInt(value) : value;
       newAnswers[currentQuestion] = numValue;
       
-      // Auto-advance for single/scale questions
       if (currentQuestion < questions.length - 1) {
-        setTimeout(() => setCurrentQuestion(currentQuestion + 1), 300);
+        // Clear the next question's answers before moving forward
+        delete newAnswers[currentQuestion + 1];
+        setTimeout(() => setCurrentQuestion(prev => prev + 1), 300);
       } else {
         calculateStats(newAnswers);
       }
@@ -67,6 +68,20 @@ const QuizApp = () => {
 
     setStats(newStats);
     setShowResults(true);
+  };
+
+  const moveToNextQuestion = () => {
+    if (currentQuestion < questions.length - 1) {
+      // Clear the next question's answers
+      setAnswers(prev => {
+        const newAnswers = { ...prev };
+        delete newAnswers[currentQuestion + 1];
+        return newAnswers;
+      });
+      setCurrentQuestion(prev => prev + 1);
+    } else {
+      calculateStats(answers);
+    }
   };
 
   const renderQuestion = () => {
@@ -154,13 +169,7 @@ const QuizApp = () => {
                 {questions[currentQuestion].type === "multiple" && (
                   <Button 
                     className="w-full mt-6"
-                    onClick={() => {
-                      if (currentQuestion === questions.length - 1) {
-                        calculateStats(answers);
-                      } else {
-                        setCurrentQuestion(currentQuestion + 1);
-                      }
-                    }}
+                    onClick={moveToNextQuestion}
                   >
                     {currentQuestion === questions.length - 1 ? "See Results" : "Next Question"}
                   </Button>
@@ -203,8 +212,7 @@ const QuizApp = () => {
                       {archetype.description}
                     </p>
                     <div className="text-gray-600 mb-4">
-                      Driven by {statEmojis[archetype.primaryStat]} {archetype.primaryStat} 
-                      and supported by {statEmojis[archetype.secondaryStat]} {archetype.secondaryStat}
+                      Driven by {statEmojis[archetype.primaryStat]} strength and supported by {statEmojis[archetype.secondaryStat]} {archetype.secondaryStat}
                     </div>
                     <div className="mt-4">
                       <h4 className="font-semibold text-gray-800 mb-2">Recommended Activities:</h4>
