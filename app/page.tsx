@@ -71,6 +71,28 @@ export default function Home() {
                 <Progress value={(value / maxPoints) * 100} className="h-2" />
               </div>
             ))}
+            <Card>
+  <CardHeader>
+    <CardTitle>Areas for Growth</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <div className="space-y-4">
+      {Object.entries(archetype.recommendations.improvements).map(([stat, improvements]) => (
+        <div key={stat} className="space-y-2">
+          <h4 className="font-semibold flex items-center">
+            <StatIcon stat={stat} />
+            Improve {stat.charAt(0).toUpperCase() + stat.slice(1)}:
+          </h4>
+          <ul className="list-disc pl-5 space-y-1">
+            {improvements.map((improvement, i) => (
+              <li key={i} className="text-slate-600">{improvement}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </CardContent>
+</Card>
           </CardContent>
         </Card>
       </div>
