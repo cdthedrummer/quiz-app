@@ -1,44 +1,29 @@
-'use client';
+[Previous file content with this handleAnswer update:
 
-// [Previous imports remain the same...]
+  const handleAnswer = (value: string | number) => {
+    const question = questions[currentQuestion];
+    let newAnswers = { ...answers };
 
-const QuizApp = () => {
-  // [Previous state and other function declarations remain the same...]
-
-  const calculateStats = (finalAnswers: Answers) => {
-    const newStats = { ...INITIAL_STATS };
-    
-    questions.forEach((question, index) => {
-      const answer = finalAnswers[index];
-      
-      if (!answer) return;
-
-      if (question.type === "scale") {
-        newStats[question.stat] += answer as number;
-      } else if (question.type === "single" && typeof answer === "number") {
-        const stats = question.options[answer].stats;
-        if (stats) {
-          stats.forEach(stat => {
-            newStats[stat] += 1;
-          });
+    if (question.type === "multiple") {
+      const currentAnswers = (answers[currentQuestion] as number[]) || [];
+      const numValue = typeof value === 'string' ? parseInt(value) : value;
+      const newValue = currentAnswers.includes(numValue)
+        ? currentAnswers.filter(v => v !== numValue)
+        : [...currentAnswers, numValue];
+      newAnswers[currentQuestion] = newValue;
+      setAnswers(newAnswers);
+    } else {
+      const numValue = typeof value === 'string' ? parseInt(value) : value;
+      if (answers[currentQuestion] === numValue) {
+        delete newAnswers[currentQuestion];
+      } else {
+        newAnswers[currentQuestion] = numValue;
+        if (currentQuestion < questions.length - 1) {
+          setCurrentQuestion(prev => prev + 1);
+        } else {
+          calculateStats(newAnswers);
         }
-      } else if (question.type === "multiple" && Array.isArray(answer)) {
-        answer.forEach(optionIndex => {
-          const option = question.options[optionIndex];
-          if (option && option.stats) {
-            option.stats.forEach(stat => {
-              newStats[stat] += 1;
-            });
-          }
-        });
       }
-    });
-
-    setStats(newStats);
-    setShowResults(true);
-  };
-
-  // [Rest of the component remains the same...]
-};
-
-export default QuizApp;
+      setAnswers(newAnswers);
+    }
+  };]
