@@ -1,82 +1,78 @@
-import type { Archetype } from './types';
+import type { Stat } from './types';
+
+export type Archetype = {
+  name: string;
+  emoji: string;
+  description: string;
+  primaryStat: keyof Stat;
+  secondaryStat: keyof Stat;
+  recommendations: string[];
+};
 
 export const archetypes: Archetype[] = [
   {
-    name: "Knight",
-    description: "A charismatic warrior who leads from the front, combining physical prowess with natural leadership.",
-    primaryStat: "strength",
-    secondaryStat: "charisma",
-    emoji: "⚔️",
-    thresholds: { primary: 4, secondary: 3 },
+    name: 'Knight',
+    emoji: '⚔️',
+    description: 'You are a valiant warrior who combines physical prowess with unwavering honor. Your strength serves a noble purpose, and your charisma inspires others to follow your lead.',
+    primaryStat: 'strength',
+    secondaryStat: 'charisma',
     recommendations: [
-      "Weightlifting/Calisthenics",
-      "CrossFit",
-      "Leadership Training"
+      'Join or start a martial arts club',
+      'Organize team sports events',
+      'Take on leadership roles in community projects',
+      'Practice public speaking'
     ]
   },
   {
-    name: "Sage",
-    description: "A wise scholar who combines deep knowledge with intuitive understanding.",
-    primaryStat: "intelligence",
-    secondaryStat: "wisdom",
-    emoji: "📚",
-    thresholds: { primary: 4, secondary: 3 },
+    name: 'Mystic',
+    emoji: '🔮',
+    description: 'You possess deep wisdom and an intuitive understanding of the mysteries of life. Your intelligence guides your spiritual journey, while your wisdom helps others find their path.',
+    primaryStat: 'intelligence',
+    secondaryStat: 'wisdom',
     recommendations: [
-      "Online Courses",
-      "Reading Groups",
-      "Meditation Practice"
+      'Start a meditation practice',
+      'Lead study groups',
+      'Write philosophical essays',
+      'Mentor others in their personal growth'
     ]
   },
   {
-    name: "Ranger",
-    description: "A nimble explorer who combines physical agility with rugged endurance.",
-    primaryStat: "dexterity",
-    secondaryStat: "constitution",
-    emoji: "🏹",
-    thresholds: { primary: 4, secondary: 3 },
+    name: 'Rogue',
+    emoji: '🗡️',
+    description: 'Quick-witted and agile, you excel at finding creative solutions to complex problems. Your dexterity keeps you one step ahead, while your intelligence helps you plan the perfect strategy.',
+    primaryStat: 'dexterity',
+    secondaryStat: 'intelligence',
     recommendations: [
-      "Rock Climbing",
-      "Trail Running",
-      "Martial Arts"
+      'Take up parkour or rock climbing',
+      'Learn sleight of hand tricks',
+      'Study puzzle-solving techniques',
+      'Practice improvisation'
     ]
   },
   {
-    name: "Diplomat",
-    description: "A natural connector who builds bridges between people and ideas.",
-    primaryStat: "charisma",
-    secondaryStat: "wisdom",
-    emoji: "🤝",
-    thresholds: { primary: 4, secondary: 3 },
+    name: 'Sage',
+    emoji: '📚',
+    description: 'A seeker of knowledge and truth, you combine deep wisdom with powerful intellect. Your understanding of both facts and human nature makes you an invaluable advisor.',
+    primaryStat: 'wisdom',
+    secondaryStat: 'intelligence',
     recommendations: [
-      "Public Speaking",
-      "Networking Events",
-      "Communication Workshops"
+      'Start a book club',
+      'Teach in your area of expertise',
+      'Write educational content',
+      'Provide counseling or advice'
     ]
   },
   {
-    name: "Scholar",
-    description: "A dedicated intellectual who seeks to understand the world through study and analysis.",
-    primaryStat: "intelligence",
-    secondaryStat: "constitution",
-    emoji: "🎓",
-    thresholds: { primary: 4, secondary: 3 },
+    name: 'Diplomat',
+    emoji: '🤝',
+    description: 'You excel at bringing people together and finding common ground. Your charisma draws others in, while your wisdom helps you understand their deepest motivations.',
+    primaryStat: 'charisma',
+    secondaryStat: 'wisdom',
     recommendations: [
-      "Technical Workshops",
-      "Research Projects",
-      "Language Learning"
-    ]
-  },
-  {
-    name: "Athlete",
-    description: "A disciplined performer who pushes the boundaries of physical achievement.",
-    primaryStat: "dexterity",
-    secondaryStat: "strength",
-    emoji: "🏃",
-    thresholds: { primary: 4, secondary: 3 },
-    recommendations: [
-      "Sports Training",
-      "Dance Classes",
-      "Gymnastics"
+      'Join debate clubs',
+      'Mediate conflicts',
+      'Organize community events',
+      'Lead team-building activities'
     ]
   }
 ];
