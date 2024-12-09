@@ -1,106 +1,173 @@
-import type { Stat } from './types';
+import { CharacterStats } from '../types';
 
-export type Archetype = {
+export interface Archetype {
   name: string;
-  emoji: string;
+  icon: string;
   description: string;
-  primaryStat: keyof Stat;
-  secondaryStat: keyof Stat;
-  recommendations: string[];
-  improvementTips: {
-    [key in keyof Stat]?: string[];
+  primaryStats: Array<keyof CharacterStats>;
+  recommendations: {
+    activities: string[];
+    improvements: Record<string, string[]>;
   };
-};
+  threshold: number;
+}
 
-export const archetypes: Archetype[] = [
+const archetypes: Archetype[] = [
   {
-    name: 'Knight',
-    emoji: '⚔️',
-    description: 'You combine physical prowess with inspiring leadership. Your strength serves a noble purpose, and your charisma naturally draws others to your cause.',
-    primaryStat: 'strength',
-    secondaryStat: 'charisma',
-    recommendations: [
-      'Lead group fitness activities',
-      'Coach team sports',
-      'Organize community events',
-      'Train others in physical skills'
-    ],
-    improvementTips: {
-      intelligence: ['Join a book club', 'Take online courses', 'Learn a new language'],
-      wisdom: ['Practice meditation', 'Mentor others', 'Study philosophy'],
-      dexterity: ['Try yoga or dance', 'Learn juggling', 'Practice precision sports']
+    name: "Knight",
+    icon: "⚔️",
+    description: "You combine physical prowess with inspiring leadership. Your strength serves a noble purpose, and your charisma naturally draws others to your cause.",
+    primaryStats: ["strength", "charisma"],
+    threshold: 5,
+    recommendations: {
+      activities: [
+        "Lead group fitness activities",
+        "Coach team sports",
+        "Organize community events",
+        "Train others in physical skills"
+      ],
+      improvements: {
+        intelligence: [
+          "Join a book club",
+          "Take online courses",
+          "Learn a new language"
+        ],
+        wisdom: [
+          "Practice meditation",
+          "Mentor others",
+          "Study philosophy"
+        ],
+        dexterity: [
+          "Try yoga or dance",
+          "Learn juggling",
+          "Practice precision sports"
+        ]
+      }
     }
   },
   {
-    name: 'Mystic',
-    emoji: '🔮',
-    description: 'Your intelligence and wisdom give you deep insight into both knowledge and human nature. You excel at understanding complex systems and guiding others.',
-    primaryStat: 'intelligence',
-    secondaryStat: 'wisdom',
-    recommendations: [
-      'Lead study groups',
-      'Write educational content',
-      'Teach complex topics',
-      'Provide thoughtful advice'
-    ],
-    improvementTips: {
-      strength: ['Start with bodyweight exercises', 'Try progressive resistance training', 'Join guided fitness classes'],
-      charisma: ['Join Toastmasters', 'Practice active listening', 'Engage in group activities'],
-      dexterity: ['Take up painting', 'Practice typing skills', 'Try coordination exercises']
+    name: "Scholar",
+    icon: "📚",
+    description: "Your keen intellect and deep wisdom make you a natural problem-solver and teacher. You excel at understanding complex systems and sharing knowledge.",
+    primaryStats: ["intelligence", "wisdom"],
+    threshold: 5,
+    recommendations: {
+      activities: [
+        "Teach or tutor others",
+        "Write educational content",
+        "Research new topics",
+        "Join discussion groups"
+      ],
+      improvements: {
+        strength: [
+          "Try bodyweight exercises",
+          "Take up hiking",
+          "Practice martial arts"
+        ],
+        charisma: [
+          "Join public speaking clubs",
+          "Practice storytelling",
+          "Volunteer for presentations"
+        ]
+      }
     }
   },
   {
-    name: 'Rogue',
-    emoji: '🗡️',
-    description: 'Your quick wit matches your quick movements. You excel at finding creative solutions and adapting rapidly to new situations.',
-    primaryStat: 'dexterity',
-    secondaryStat: 'intelligence',
-    recommendations: [
-      'Take up parkour or climbing',
-      'Learn sleight of hand',
-      'Master quick problem-solving',
-      'Practice speed skills'
-    ],
-    improvementTips: {
-      strength: ['Start calisthenics', 'Try rock climbing', 'Practice bodyweight exercises'],
-      wisdom: ['Keep a reflection journal', 'Study decision-making', 'Practice mindfulness'],
-      charisma: ['Join improv classes', 'Practice storytelling', 'Engage in team sports']
+    name: "Rogue",
+    icon: "🎯",
+    description: "Your exceptional agility and quick thinking make you naturally adaptable. You excel at tasks requiring precision and creative problem-solving.",
+    primaryStats: ["dexterity", "intelligence"],
+    threshold: 5,
+    recommendations: {
+      activities: [
+        "Learn parkour",
+        "Practice martial arts",
+        "Take up rock climbing",
+        "Study sleight of hand"
+      ],
+      improvements: {
+        strength: [
+          "Add resistance training",
+          "Try climbing",
+          "Practice calisthenics"
+        ],
+        constitution: [
+          "Build endurance with cardio",
+          "Improve flexibility",
+          "Focus on nutrition"
+        ]
+      }
     }
   },
   {
-    name: 'Sage',
-    emoji: '📚',
-    description: 'You combine deep wisdom with keen intellect. Your understanding of both facts and human nature makes you an invaluable advisor and teacher.',
-    primaryStat: 'wisdom',
-    secondaryStat: 'intelligence',
-    recommendations: [
-      'Mentor others',
-      'Lead discussion groups',
-      'Write advice columns',
-      'Teach life skills'
-    ],
-    improvementTips: {
-      strength: ['Start gentle exercise routines', 'Try tai chi', 'Practice yoga'],
-      dexterity: ['Learn calligraphy', 'Practice fine motor skills', 'Try balance exercises'],
-      charisma: ['Join discussion groups', 'Practice public speaking', 'Lead small workshops']
+    name: "Healer",
+    icon: "💚",
+    description: "Your high constitution and wisdom make you naturally attuned to well-being. You excel at maintaining health and helping others do the same.",
+    primaryStats: ["constitution", "wisdom"],
+    threshold: 5,
+    recommendations: {
+      activities: [
+        "Study nutrition",
+        "Practice holistic wellness",
+        "Learn therapeutic techniques",
+        "Guide wellness groups"
+      ],
+      improvements: {
+        strength: [
+          "Try gentle strength training",
+          "Practice tai chi",
+          "Learn proper form"
+        ],
+        charisma: [
+          "Develop empathy",
+          "Practice active listening",
+          "Join support groups"
+        ]
+      }
     }
   },
   {
-    name: 'Diplomat',
-    emoji: '🤝',
-    description: 'Your charisma and wisdom make you a natural mediator. You excel at bringing people together and finding peaceful solutions to conflicts.',
-    primaryStat: 'charisma',
-    secondaryStat: 'wisdom',
-    recommendations: [
-      'Lead negotiations',
-      'Organize social events',
-      'Mediate conflicts',
-      'Build community connections'
-    ],
-    improvementTips: {
-      strength: ['Join group fitness classes', 'Try team sports', 'Practice partner exercises'],
-      intelligence: ['Read current events', 'Study psychology', 'Learn about different cultures'],
-      dexterity: ['Take dance classes', 'Try social sports', 'Practice public speaking gestures']
+    name: "Bard",
+    icon: "🎭",
+    description: "Your charisma and dexterity make you a natural performer and communicator. You excel at creative expression and social interaction.",
+    primaryStats: ["charisma", "dexterity"],
+    threshold: 5,
+    recommendations: {
+      activities: [
+        "Take dance classes",
+        "Learn an instrument",
+        "Join improv groups",
+        "Practice public speaking"
+      ],
+      improvements: {
+        intelligence: [
+          "Study music theory",
+          "Learn new art forms",
+          "Read about psychology"
+        ],
+        constitution: [
+          "Build performance stamina",
+          "Practice breath control",
+          "Maintain vocal health"
+        ]
+      }
     }
   }
 ];
+
+export const getArchetype = (stats: CharacterStats): Archetype => {
+  let bestMatch = archetypes[0];
+  let highestScore = -1;
+
+  archetypes.forEach(archetype => {
+    const score = archetype.primaryStats.reduce((sum, stat) => sum + stats[stat], 0);
+    if (score > highestScore && score >= archetype.threshold) {
+      highestScore = score;
+      bestMatch = archetype;
+    }
+  });
+
+  return bestMatch;
+};
+
+export default archetypes;
