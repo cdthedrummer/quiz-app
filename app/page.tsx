@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { determineArchetype } from './utils/determineArchetype';
 import type { CharacterStats } from '@/types';
-import Quiz from '@/components/Quiz';
+import Quiz from '@/src/components/Quiz';
 
 export default function Home() {
   const [showResults, setShowResults] = useState(false);
