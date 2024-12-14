@@ -16,14 +16,16 @@ export function QuizQuestion({ question, selections, onSelect, onNext }: QuizQue
   const isMultipleChoice = question.type === 'multiple';
 
   return (
-    <div className="space-y-3">
-      <h3 className="text-lg font-medium">{question.text}</h3>
+    <div className="space-y-4">
+      <h3 className="text-lg md:text-xl font-medium leading-snug">
+        {question.text}
+      </h3>
 
       {!isMultipleChoice ? (
         <RadioGroup
           value={selections[0] || ''}
           onValueChange={onSelect}
-          className="space-y-2"
+          className="space-y-3"
         >
           {question.options.map((option) => (
             <QuizOption
@@ -38,7 +40,7 @@ export function QuizQuestion({ question, selections, onSelect, onNext }: QuizQue
           ))}
         </RadioGroup>
       ) : (
-        <div className="space-y-2">
+        <div className="space-y-3">
           {question.options.map((option) => (
             <QuizOption
               key={option.id}
@@ -51,11 +53,11 @@ export function QuizQuestion({ question, selections, onSelect, onNext }: QuizQue
             />
           ))}
           {onNext && (
-            <div className="flex justify-end pt-4">
+            <div className="sticky bottom-0 left-0 right-0 py-4 bg-white/95 backdrop-blur-sm mt-6">
               <Button
                 onClick={onNext}
                 disabled={!selections.length}
-                className="transition-all duration-200 hover:scale-105"
+                className="w-full md:w-auto md:float-right transition-all duration-200 hover:scale-105"
               >
                 Next
               </Button>
