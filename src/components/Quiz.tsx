@@ -27,10 +27,8 @@ export default function Quiz({ onComplete }: QuizProps) {
       let newSelections: string[];
 
       if (isSingleSelect) {
-        // For single select, if same value is selected, unselect it
         newSelections = currentSelections[0] === value ? [] : [value];
       } else {
-        // For multi select, toggle the selection
         newSelections = currentSelections.includes(value)
           ? currentSelections.filter(v => v !== value)
           : [...currentSelections, value];
@@ -52,6 +50,9 @@ export default function Quiz({ onComplete }: QuizProps) {
       
       if (currentQuestion < questions.length - 1) {
         setCurrentQuestion(prev => prev + 1);
+
+        // Scroll to top smoothly when changing questions
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
         onComplete(stats);
       }
@@ -59,7 +60,7 @@ export default function Quiz({ onComplete }: QuizProps) {
     }, 300);
   };
 
-  // Auto-advance for single/scale questions when an option is selected
+  // Auto-advance for single/scale questions
   if (selections[currentQuestion]?.length > 0 && 
       (question.type === 'single' || question.type === 'scale')) {
     handleNext();
@@ -68,8 +69,8 @@ export default function Quiz({ onComplete }: QuizProps) {
   if (!question) return null;
 
   return (
-    <Card className="w-full max-w-2xl mx-auto transition-all duration-300 ease-in-out hover:shadow-lg">
-      <CardHeader className="pb-2 px-4 md:px-6">
+    <Card className="w-full max-w-2xl mx-auto transition-all duration-300 ease-in-out hover:shadow-lg overflow-hidden">
+      <CardHeader className="pb-2 px-4 md:px-6 sticky top-0 bg-white/95 backdrop-blur-sm z-10 shadow-sm">
         <QuizProgress 
           current={currentQuestion} 
           total={questions.length} 
