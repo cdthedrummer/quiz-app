@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import type { CharacterStats } from '@/types';
 import { questions } from '../data/questions';
@@ -18,6 +18,15 @@ export default function Quiz({ onComplete }: QuizProps) {
   const { stats, updateStats } = useQuizStats();
 
   const question = questions[currentQuestion];
+
+  // Handle auto-advance for single/scale questions
+  useEffect(() => {
+    const currentSelections = selections[currentQuestion] || [];
+    if (currentSelections.length > 0 && 
+        (question.type === 'single' || question.type === 'scale')) {
+      handleNext();
+    }
+  }, [selections, currentQuestion]);
 
   const handleSelect = (value: string) => {
     const isSingleSelect = question.type === 'single' || question.type === 'scale';
@@ -42,6 +51,8 @@ export default function Quiz({ onComplete }: QuizProps) {
   };
 
   const handleNext = () => {
+    if (isAnimating) return; // Prevent multiple triggers
+
     const currentSelections = selections[currentQuestion] || [];
     setIsAnimating(true);
     
@@ -50,8 +61,6 @@ export default function Quiz({ onComplete }: QuizProps) {
       
       if (currentQuestion < questions.length - 1) {
         setCurrentQuestion(prev => prev + 1);
-
-        // Scroll to top smoothly when changing questions
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
         onComplete(stats);
@@ -59,12 +68,6 @@ export default function Quiz({ onComplete }: QuizProps) {
       setIsAnimating(false);
     }, 300);
   };
-
-  // Auto-advance for single/scale questions
-  if (selections[currentQuestion]?.length > 0 && 
-      (question.type === 'single' || question.type === 'scale')) {
-    handleNext();
-  }
 
   if (!question) return null;
 
