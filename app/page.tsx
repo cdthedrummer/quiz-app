@@ -3,20 +3,24 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { determineArchetype } from './utils/determineArchetype';
-import { CharacterStats } from '@/types';
+import type { CharacterStats } from '@/types';
+import Quiz from '@/components/Quiz';
 
 export default function Home() {
+  const [showResults, setShowResults] = useState(false);
   const [stats, setStats] = useState<CharacterStats>({
-    strength: 3,
-    intelligence: 5,
-    wisdom: 1,
-    dexterity: 4,
+    strength: 0,
+    intelligence: 0,
+    wisdom: 0,
+    dexterity: 0,
     charisma: 0,
     constitution: 0,
   });
 
-  const archetype = determineArchetype(stats);
-  const maxPoints = 10;
+  const handleQuizComplete = (finalStats: CharacterStats) => {
+    setStats(finalStats);
+    setShowResults(true);
+  };
 
   const StatIcon = ({ stat }: { stat: string }) => {
     const icons: Record<string, string> = {
@@ -29,6 +33,18 @@ export default function Home() {
     };
     return <span className="mr-2">{icons[stat]}</span>;
   };
+
+  if (!showResults) {
+    return (
+      <main className="p-4">
+        <h1 className="text-4xl font-bold text-center mb-6">Character Builder Quiz</h1>
+        <Quiz onComplete={handleQuizComplete} />
+      </main>
+    );
+  }
+
+  const archetype = determineArchetype(stats);
+  const maxPoints = 10;
 
   return (
     <main className="p-4">
@@ -72,27 +88,27 @@ export default function Home() {
               </div>
             ))}
             <Card>
-  <CardHeader>
-    <CardTitle>Areas for Growth</CardTitle>
-  </CardHeader>
-  <CardContent>
-    <div className="space-y-4">
-      {Object.entries(archetype.recommendations.improvements).map(([stat, improvements]) => (
-        <div key={stat} className="space-y-2">
-          <h4 className="font-semibold flex items-center">
-            <StatIcon stat={stat} />
-            Improve {stat.charAt(0).toUpperCase() + stat.slice(1)}:
-          </h4>
-          <ul className="list-disc pl-5 space-y-1">
-            {improvements.map((improvement, i) => (
-              <li key={i} className="text-slate-600">{improvement}</li>
-            ))}
-          </ul>
-        </div>
-      ))}
-    </div>
-  </CardContent>
-</Card>
+              <CardHeader>
+                <CardTitle>Areas for Growth</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {Object.entries(archetype.recommendations.improvements).map(([stat, improvements]) => (
+                    <div key={stat} className="space-y-2">
+                      <h4 className="font-semibold flex items-center">
+                        <StatIcon stat={stat} />
+                        Improve {stat.charAt(0).toUpperCase() + stat.slice(1)}:
+                      </h4>
+                      <ul className="list-disc pl-5 space-y-1">
+                        {improvements.map((improvement, i) => (
+                          <li key={i} className="text-slate-600">{improvement}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
           </CardContent>
         </Card>
       </div>
