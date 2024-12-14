@@ -1,173 +1,188 @@
-import { CharacterStats } from '../types';
+import { CharacterStats } from '@/types';
 
 export interface Archetype {
   name: string;
   icon: string;
   description: string;
-  primaryStats: Array<keyof CharacterStats>;
   recommendations: {
     activities: string[];
     improvements: Record<string, string[]>;
   };
-  threshold: number;
 }
 
-const archetypes: Archetype[] = [
-  {
-    name: "Knight",
-    icon: "⚔️",
-    description: "You combine physical prowess with inspiring leadership. Your strength serves a noble purpose, and your charisma naturally draws others to your cause.",
-    primaryStats: ["strength", "charisma"],
-    threshold: 5,
+export const archetypes: Record<string, Archetype> = {
+  warrior: {
+    name: 'Warrior',
+    icon: '⚔️',
+    description: 'You thrive on physical challenges and have the strength to overcome any obstacle. Your determination and power make you a natural leader in physical endeavors.',
     recommendations: {
       activities: [
-        "Lead group fitness activities",
-        "Coach team sports",
-        "Organize community events",
-        "Train others in physical skills"
+        'Strength training',
+        'Combat sports',
+        'Team sports',
+        'Outdoor adventures'
       ],
       improvements: {
+        wisdom: [
+          'Practice meditation',
+          'Study strategy games'
+        ],
         intelligence: [
-          "Join a book club",
-          "Take online courses",
-          "Learn a new language"
+          'Learn about nutrition',
+          'Study training techniques'
+        ]
+      }
+    }
+  },
+  mage: {
+    name: 'Mage',
+    icon: '🔮',
+    description: 'Your keen intellect and pursuit of knowledge sets you apart. You excel at problem-solving and have a natural curiosity about how things work.',
+    recommendations: {
+      activities: [
+        'Programming',
+        'Strategic games',
+        'Scientific research',
+        'Creative writing'
+      ],
+      improvements: {
+        dexterity: [
+          'Try hands-on projects',
+          'Practice physical skills'
+        ],
+        constitution: [
+          'Develop exercise routine',
+          'Focus on healthy habits'
+        ]
+      }
+    }
+  },
+  rogue: {
+    name: 'Rogue',
+    icon: '🗡️',
+    description: 'Your agility and precision make you naturally talented at skilled activities. You have excellent hand-eye coordination and adapt quickly to new situations.',
+    recommendations: {
+      activities: [
+        'Martial arts',
+        'Dance',
+        'Sports',
+        'Musical instruments'
+      ],
+      improvements: {
+        strength: [
+          'Add strength training',
+          'Build core stability'
         ],
         wisdom: [
-          "Practice meditation",
-          "Mentor others",
-          "Study philosophy"
+          'Practice patience',
+          'Learn strategy'
+        ]
+      }
+    }
+  },
+  cleric: {
+    name: 'Cleric',
+    icon: '✨',
+    description: 'You have deep wisdom and strong intuition. Your understanding of people and situations helps you make good decisions and guide others.',
+    recommendations: {
+      activities: [
+        'Meditation',
+        'Counseling',
+        'Teaching',
+        'Nature walks'
+      ],
+      improvements: {
+        strength: [
+          'Build physical resilience',
+          'Try strength training'
         ],
         dexterity: [
-          "Try yoga or dance",
-          "Learn juggling",
-          "Practice precision sports"
+          'Practice coordination',
+          'Learn new skills'
         ]
       }
     }
   },
-  {
-    name: "Scholar",
-    icon: "📚",
-    description: "Your keen intellect and deep wisdom make you a natural problem-solver and teacher. You excel at understanding complex systems and sharing knowledge.",
-    primaryStats: ["intelligence", "wisdom"],
-    threshold: 5,
+  bard: {
+    name: 'Bard',
+    icon: '🎭',
+    description: 'Your charisma and social skills make you a natural leader. You excel at communication and bringing people together.',
     recommendations: {
       activities: [
-        "Teach or tutor others",
-        "Write educational content",
-        "Research new topics",
-        "Join discussion groups"
-      ],
-      improvements: {
-        strength: [
-          "Try bodyweight exercises",
-          "Take up hiking",
-          "Practice martial arts"
-        ],
-        charisma: [
-          "Join public speaking clubs",
-          "Practice storytelling",
-          "Volunteer for presentations"
-        ]
-      }
-    }
-  },
-  {
-    name: "Rogue",
-    icon: "🎯",
-    description: "Your exceptional agility and quick thinking make you naturally adaptable. You excel at tasks requiring precision and creative problem-solving.",
-    primaryStats: ["dexterity", "intelligence"],
-    threshold: 5,
-    recommendations: {
-      activities: [
-        "Learn parkour",
-        "Practice martial arts",
-        "Take up rock climbing",
-        "Study sleight of hand"
-      ],
-      improvements: {
-        strength: [
-          "Add resistance training",
-          "Try climbing",
-          "Practice calisthenics"
-        ],
-        constitution: [
-          "Build endurance with cardio",
-          "Improve flexibility",
-          "Focus on nutrition"
-        ]
-      }
-    }
-  },
-  {
-    name: "Healer",
-    icon: "💚",
-    description: "Your high constitution and wisdom make you naturally attuned to well-being. You excel at maintaining health and helping others do the same.",
-    primaryStats: ["constitution", "wisdom"],
-    threshold: 5,
-    recommendations: {
-      activities: [
-        "Study nutrition",
-        "Practice holistic wellness",
-        "Learn therapeutic techniques",
-        "Guide wellness groups"
-      ],
-      improvements: {
-        strength: [
-          "Try gentle strength training",
-          "Practice tai chi",
-          "Learn proper form"
-        ],
-        charisma: [
-          "Develop empathy",
-          "Practice active listening",
-          "Join support groups"
-        ]
-      }
-    }
-  },
-  {
-    name: "Bard",
-    icon: "🎭",
-    description: "Your charisma and dexterity make you a natural performer and communicator. You excel at creative expression and social interaction.",
-    primaryStats: ["charisma", "dexterity"],
-    threshold: 5,
-    recommendations: {
-      activities: [
-        "Take dance classes",
-        "Learn an instrument",
-        "Join improv groups",
-        "Practice public speaking"
+        'Public speaking',
+        'Performing arts',
+        'Team leadership',
+        'Social events'
       ],
       improvements: {
         intelligence: [
-          "Study music theory",
-          "Learn new art forms",
-          "Read about psychology"
+          'Study communication theory',
+          'Learn new subjects'
         ],
         constitution: [
-          "Build performance stamina",
-          "Practice breath control",
-          "Maintain vocal health"
+          'Build endurance',
+          'Maintain energy levels'
+        ]
+      }
+    }
+  },
+  ranger: {
+    name: 'Ranger',
+    icon: '🏹',
+    description: 'Your endurance and adaptability help you thrive in any situation. You maintain excellent health and can handle physical challenges well.',
+    recommendations: {
+      activities: [
+        'Hiking',
+        'Endurance sports',
+        'Nature activities',
+        'Survival skills'
+      ],
+      improvements: {
+        charisma: [
+          'Join group activities',
+          'Lead outdoor events'
+        ],
+        intelligence: [
+          'Study nature',
+          'Learn survival skills'
         ]
       }
     }
   }
-];
-
-export const getArchetype = (stats: CharacterStats): Archetype => {
-  let bestMatch = archetypes[0];
-  let highestScore = -1;
-
-  archetypes.forEach(archetype => {
-    const score = archetype.primaryStats.reduce((sum, stat) => sum + stats[stat], 0);
-    if (score > highestScore && score >= archetype.threshold) {
-      highestScore = score;
-      bestMatch = archetype;
-    }
-  });
-
-  return bestMatch;
 };
 
-export default archetypes;
+export function determineArchetype(stats: CharacterStats): Archetype {
+  // Find the highest stat(s)
+  const maxValue = Math.max(...Object.values(stats));
+  const highestStats = Object.entries(stats)
+    .filter(([_, value]) => value === maxValue)
+    .map(([stat]) => stat);
+
+  // Map stats to archetypes
+  const archetypeMap: Record<string, string> = {
+    strength: 'warrior',
+    intelligence: 'mage',
+    dexterity: 'rogue',
+    wisdom: 'cleric',
+    charisma: 'bard',
+    constitution: 'ranger'
+  };
+
+  // If there's a tie, use secondary stats to break it
+  if (highestStats.length > 1) {
+    const secondaryStats = { ...stats };
+    highestStats.forEach(stat => delete secondaryStats[stat as keyof CharacterStats]);
+    const nextHighest = Math.max(...Object.values(secondaryStats));
+    const breakingStats = Object.entries(secondaryStats)
+      .filter(([_, value]) => value === nextHighest)
+      .map(([stat]) => stat);
+    
+    // If we have a breaking stat, use it
+    if (breakingStats.length === 1) {
+      return archetypes[archetypeMap[breakingStats[0]]];
+    }
+  }
+
+  // Default to the first highest stat
+  return archetypes[archetypeMap[highestStats[0]]];
+}
