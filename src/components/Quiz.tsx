@@ -30,7 +30,6 @@ export default function Quiz({ onComplete }: QuizProps) {
   const progress = ((currentQuestion + 1) / questions.length) * 100;
 
   useEffect(() => {
-    // Auto-progress when a selection is made for single/scale questions
     if (selections[currentQuestion]?.length > 0 && 
         (question.type === 'single' || question.type === 'scale')) {
       handleNext();
@@ -103,7 +102,7 @@ export default function Quiz({ onComplete }: QuizProps) {
 
   return (
     <Card className="w-full max-w-2xl mx-auto transition-all duration-300 ease-in-out hover:shadow-lg">
-      <CardHeader className="pb-2">
+      <CardHeader className="pb-2 px-4 md:px-6">
         <CardTitle className="text-xl">
           Question {currentQuestion + 1} of {questions.length}
         </CardTitle>
@@ -112,7 +111,7 @@ export default function Quiz({ onComplete }: QuizProps) {
           className="h-1.5 transition-all duration-300 ease-in-out" 
         />
       </CardHeader>
-      <CardContent className={`transition-opacity duration-300 ${isAnimating ? 'opacity-0' : 'opacity-100'}`}>
+      <CardContent className={`transition-opacity duration-300 ${isAnimating ? 'opacity-0' : 'opacity-100'} px-4 md:px-6`}>
         <h3 className="text-lg font-medium mb-3">{question.text}</h3>
         
         {question.type === 'single' || question.type === 'scale' ? (
@@ -124,19 +123,23 @@ export default function Quiz({ onComplete }: QuizProps) {
             {question.options.map((option) => (
               <label
                 key={option.id}
-                className={`block p-3 rounded-lg border border-gray-200 cursor-pointer transition-all duration-200
-                  ${selections[currentQuestion]?.[0] === option.id ? 'bg-blue-50 border-blue-200' : 'hover:bg-gray-50 hover:border-gray-300'}`}
+                className={`relative block rounded-lg transition-all duration-200 select-none
+                  border-2 ${selections[currentQuestion]?.[0] === option.id 
+                    ? 'border-blue-500 bg-blue-50' 
+                    : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'}`}
                 onClick={() => handleSingleSelect(option.id)}
               >
-                <div className="flex items-center">
-                  <RadioGroupItem value={option.id} id={option.id} className="ml-1" />
-                  <span className="font-medium ml-3">{option.text}</span>
+                <div className="px-4 py-3">
+                  <div className="flex items-center min-h-6">
+                    <RadioGroupItem value={option.id} id={option.id} />
+                    <span className="font-medium ml-3">{option.text}</span>
+                  </div>
+                  {option.subtext && (
+                    <p className="text-sm text-gray-500 ml-7 mt-0.5">
+                      {option.subtext}
+                    </p>
+                  )}
                 </div>
-                {option.subtext && (
-                  <p className="text-sm text-gray-500 ml-7 mt-0.5">
-                    {option.subtext}
-                  </p>
-                )}
               </label>
             ))}
           </RadioGroup>
@@ -145,23 +148,26 @@ export default function Quiz({ onComplete }: QuizProps) {
             {question.options.map((option) => (
               <label
                 key={option.id}
-                className={`block p-3 rounded-lg border border-gray-200 cursor-pointer transition-all duration-200
-                  ${selections[currentQuestion]?.includes(option.id) ? 'bg-blue-50 border-blue-200' : 'hover:bg-gray-50 hover:border-gray-300'}`}
+                className={`relative block rounded-lg transition-all duration-200 select-none
+                  border-2 ${selections[currentQuestion]?.includes(option.id) 
+                    ? 'border-blue-500 bg-blue-50' 
+                    : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'}`}
                 onClick={() => handleMultiSelect(option.id)}
               >
-                <div className="flex items-center">
-                  <Checkbox
-                    id={option.id}
-                    checked={selections[currentQuestion]?.includes(option.id)}
-                    className="ml-1"
-                  />
-                  <span className="font-medium ml-3">{option.text}</span>
+                <div className="px-4 py-3">
+                  <div className="flex items-center min-h-6">
+                    <Checkbox
+                      id={option.id}
+                      checked={selections[currentQuestion]?.includes(option.id)}
+                    />
+                    <span className="font-medium ml-3">{option.text}</span>
+                  </div>
+                  {option.subtext && (
+                    <p className="text-sm text-gray-500 ml-7 mt-0.5">
+                      {option.subtext}
+                    </p>
+                  )}
                 </div>
-                {option.subtext && (
-                  <p className="text-sm text-gray-500 ml-7 mt-0.5">
-                    {option.subtext}
-                  </p>
-                )}
               </label>
             ))}
             <div className="flex justify-end pt-4">
