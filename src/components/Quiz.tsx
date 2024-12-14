@@ -20,7 +20,121 @@ const questions = [
       { id: "1d", text: "Group Setting", stats: { charisma: 2 } }
     ]
   },
-  // Add more questions here based on your data
+  {
+    id: 2,
+    text: "Where's your focus when it comes to trying to be healthy?",
+    type: "multiple",
+    options: [
+      { id: "2a", text: "Eating Well", stats: { constitution: 1 } },
+      { id: "2b", text: "Being Active", stats: { strength: 1, dexterity: 1 } },
+      { id: "2c", text: "Relaxing and Taking it Easy", stats: { wisdom: 1 } },
+      { id: "2d", text: "Getting Regular Check-ups", stats: { constitution: 1 } }
+    ]
+  },
+  {
+    id: 3,
+    text: "What kind of physical activity makes you the most happy?",
+    type: "single",
+    options: [
+      { id: "3a", text: "Outdoor Sports and Adventures", stats: { constitution: 2 } },
+      { id: "3b", text: "Playing Team Sports", stats: { charisma: 2 } },
+      { id: "3c", text: "Working Out Alone", stats: { strength: 2 } },
+      { id: "3d", text: "Doing Fun Activities", stats: { dexterity: 2 } }
+    ]
+  },
+  {
+    id: 4,
+    text: "What makes you feel the most energized?",
+    type: "single",
+    options: [
+      { id: "4a", text: "Challenging Yourself", stats: { strength: 1, dexterity: 1 } },
+      { id: "4b", text: "Hanging out with Friends", stats: { charisma: 2 } },
+      { id: "4c", text: "Quiet Time", stats: { wisdom: 2 } },
+      { id: "4d", text: "Creating or Making Things", stats: { intelligence: 2 } }
+    ]
+  },
+  {
+    id: 5,
+    text: "How do you like to solve tough problems?",
+    type: "single",
+    options: [
+      { id: "5a", text: "Thinking and Planning", stats: { intelligence: 2 } },
+      { id: "5b", text: "Testing or Trying Things Out", stats: { dexterity: 2 } },
+      { id: "5c", text: "Asking Advice or Teamwork", stats: { charisma: 2 } },
+      { id: "5d", text: "Trusting Yourself", stats: { wisdom: 2 } }
+    ]
+  },
+  {
+    id: 6,
+    text: "How do you like to recharge?",
+    type: "multiple",
+    options: [
+      { id: "6a", text: "Enjoying Nature", stats: { constitution: 1 } },
+      { id: "6b", text: "Playing Games or Puzzles", stats: { intelligence: 1 } },
+      { id: "6c", text: "Watching Movies or TV Shows", stats: { charisma: 1 } },
+      { id: "6d", text: "Listening to Music or Podcasts", stats: { wisdom: 1 } }
+    ]
+  },
+  {
+    id: 7,
+    text: "Do you enjoy working out?",
+    type: "scale",
+    options: [
+      { id: "7a", text: "Not much", stats: { strength: 1 } },
+      { id: "7b", text: "Sometimes", stats: { strength: 2 } },
+      { id: "7c", text: "I love it", stats: { strength: 3 } }
+    ]
+  },
+  {
+    id: 8,
+    text: "Do you like meeting new people?",
+    type: "scale",
+    options: [
+      { id: "8a", text: "Not much", stats: { charisma: 1 } },
+      { id: "8b", text: "Sometimes", stats: { charisma: 2 } },
+      { id: "8c", text: "I love it", stats: { charisma: 3 } }
+    ]
+  },
+  {
+    id: 9,
+    text: "Do you keep up with the news?",
+    type: "scale",
+    options: [
+      { id: "9a", text: "Rarely", stats: { wisdom: 1 } },
+      { id: "9b", text: "Sometimes", stats: { wisdom: 2 } },
+      { id: "9c", text: "All the time", stats: { wisdom: 3 } }
+    ]
+  },
+  {
+    id: 10,
+    text: "Do you seek out new experiences?",
+    type: "scale",
+    options: [
+      { id: "10a", text: "Not really", stats: { intelligence: 1 } },
+      { id: "10b", text: "Sometimes", stats: { intelligence: 2 } },
+      { id: "10c", text: "All the time", stats: { intelligence: 3 } }
+    ]
+  },
+  {
+    id: 11,
+    text: "Do you enjoy playing sports?",
+    type: "scale",
+    options: [
+      { id: "11a", text: "Not really", stats: { dexterity: 1 } },
+      { id: "11b", text: "Sometimes", stats: { dexterity: 2 } },
+      { id: "11c", text: "I love it", stats: { dexterity: 3 } }
+    ]
+  },
+  {
+    id: 12,
+    text: "How often do you prioritize your health?",
+    type: "scale",
+    options: [
+      { id: "12a", text: "Rarely", stats: { constitution: 1 } },
+      { id: "12b", text: "Sometimes", stats: { constitution: 2 } },
+      { id: "12c", text: "All the time", stats: { constitution: 3 } }
+    ]
+  }
 ];
 
 interface QuizProps {
@@ -109,7 +223,7 @@ export default function Quiz({ onComplete }: QuizProps) {
       <CardContent className="space-y-6">
         <h3 className="text-lg font-medium">{question.text}</h3>
         
-        {question.type === 'single' ? (
+        {question.type === 'single' || question.type === 'scale' ? (
           <RadioGroup
             value={selections[currentQuestion]?.[0] || ''}
             onValueChange={handleSingleSelect}
