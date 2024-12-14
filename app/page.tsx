@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
+import { Button } from '@/components/ui/button';
 import { determineArchetype } from './utils/determineArchetype';
 import type { CharacterStats } from '@/types';
 import Quiz from '../src/components/Quiz';
@@ -20,6 +21,18 @@ export default function Home() {
   const handleQuizComplete = (finalStats: CharacterStats) => {
     setStats(finalStats);
     setShowResults(true);
+  };
+
+  const handleRetake = () => {
+    setShowResults(false);
+    setStats({
+      strength: 0,
+      intelligence: 0,
+      wisdom: 0,
+      dexterity: 0,
+      charisma: 0,
+      constitution: 0,
+    });
   };
 
   const StatIcon = ({ stat }: { stat: string }) => {
@@ -109,6 +122,12 @@ export default function Home() {
                 </div>
               </CardContent>
             </Card>
+
+            <div className="flex justify-center pt-6">
+              <Button onClick={handleRetake} size="lg">
+                Retake Quiz
+              </Button>
+            </div>
           </CardContent>
         </Card>
       </div>
