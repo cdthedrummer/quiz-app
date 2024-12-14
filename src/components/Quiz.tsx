@@ -7,29 +7,13 @@ import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Progress } from '@/components/ui/progress';
 import type { CharacterStats } from '@/types';
-
-// Move questions to a separate file later for better organization
-const questions = [
-  {
-    id: 1,
-    text: "How do you learn best?",
-    type: "single",
-    options: [
-      { id: "1a", text: "Reading", stats: { intelligence: 2 } },
-      { id: "1b", text: "Watching", stats: { intelligence: 1, wisdom: 1 } },
-      { id: "1c", text: "Hands-on", stats: { dexterity: 2 } },
-      { id: "1d", text: "With others", stats: { charisma: 2 } }
-    ]
-  },
-  // ... rest of the questions (temporarily shortened for this update)
-];
+import { questions } from '../data/questions';
 
 interface QuizProps {
   onComplete: (stats: CharacterStats) => void;
-  onRetake?: () => void;
 }
 
-export default function Quiz({ onComplete, onRetake }: QuizProps) {
+export default function Quiz({ onComplete }: QuizProps) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selections, setSelections] = useState<Record<number, string[]>>({});
   const [stats, setStats] = useState<CharacterStats>({
@@ -50,7 +34,7 @@ export default function Quiz({ onComplete, onRetake }: QuizProps) {
         (question.type === 'single' || question.type === 'scale')) {
       handleNext();
     }
-  }, [selections]);
+  }, [selections, currentQuestion, question.type]);
 
   const handleSingleSelect = (value: string) => {
     const currentSelection = selections[currentQuestion]?.[0];
@@ -86,16 +70,18 @@ export default function Quiz({ onComplete, onRetake }: QuizProps) {
   };
 
   const updateStats = (selectedOptions: string[]) => {
-    const newStats = { ...stats };
     selectedOptions.forEach(optionId => {
       const option = question.options.find(opt => opt.id === optionId);
       if (option?.stats) {
-        Object.entries(option.stats).forEach(([stat, value]) => {
-          newStats[stat as keyof CharacterStats] += value;
+        setStats(prev => {
+          const newStats = { ...prev };
+          Object.entries(option.stats).forEach(([stat, value]) => {
+            newStats[stat as keyof CharacterStats] += value;
+          });
+          return newStats;
         });
       }
     });
-    setStats(newStats);
   };
 
   const handleNext = () => {
@@ -131,7 +117,7 @@ export default function Quiz({ onComplete, onRetake }: QuizProps) {
             {question.options.map((option) => (
               <div key={option.id} className="flex items-center space-x-3">
                 <RadioGroupItem value={option.id} id={option.id} />
-                <Label htmlFor={option.id}>{option.text}</Label>
+                <Label htmlFor={option.id} className="cursor-pointer">{option.text}</Label>
               </div>
             ))}
           </RadioGroup>
@@ -142,11 +128,9 @@ export default function Quiz({ onComplete, onRetake }: QuizProps) {
                 <Checkbox
                   id={option.id}
                   checked={selections[currentQuestion]?.includes(option.id)}
-                  onCheckedChange={(checked) => {
-                    handleMultiSelect(option.id);
-                  }}
+                  onCheckedChange={() => handleMultiSelect(option.id)}
                 />
-                <Label htmlFor={option.id}>{option.text}</Label>
+                <Label htmlFor={option.id} className="cursor-pointer">{option.text}</Label>
               </div>
             ))}
             <div className="flex justify-end pt-4">
