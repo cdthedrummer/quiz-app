@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
-import { determineArchetype } from './utils/determineArchetype';
+import { determineArchetype } from '@/src/data/archetypes';
 import type { CharacterStats } from '@/types';
 import Quiz from '../src/components/Quiz';
 
@@ -50,31 +50,32 @@ export default function Home() {
   if (!showResults) {
     return (
       <main className="p-4">
-        <h1 className="text-4xl font-bold text-center mb-6">Character Builder Quiz</h1>
+        <h1 className="text-4xl font-bold text-center mb-6">Build Your Character</h1>
+        <p className="text-center text-slate-600 mb-8">Discover your strengths and find ways to level up!</p>
         <Quiz onComplete={handleQuizComplete} />
       </main>
     );
   }
 
   const archetype = determineArchetype(stats);
-  const maxPoints = 10;
+  const maxPoints = 20; // Adjusted based on possible max points from questions
 
   return (
     <main className="p-4">
-      <h1 className="text-4xl font-bold text-center mb-6">Character Builder Quiz</h1>
+      <h1 className="text-4xl font-bold text-center mb-6">Your Character Sheet</h1>
       
       <div className="space-y-6 max-w-2xl mx-auto">
         <Card className="bg-gradient-to-br from-slate-50 to-slate-100">
           <CardHeader className="text-center">
-            <div className="text-4xl mb-2">{archetype.icon}</div>
-            <CardTitle className="text-2xl">You are a {archetype.name}!</CardTitle>
+            <div className="text-6xl mb-4">{archetype.icon}</div>
+            <CardTitle className="text-3xl">The {archetype.name}</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-slate-600 mb-6">{archetype.description}</p>
+            <p className="text-slate-600 mb-6 text-center text-lg">{archetype.description}</p>
             
             <div className="space-y-4">
-              <h4 className="font-semibold text-gray-800 mb-2">Recommended Activities:</h4>
-              <ul className="list-disc list-inside space-y-1 text-gray-600">
+              <h4 className="font-semibold text-gray-800 mb-2">Featured Activities</h4>
+              <ul className="list-disc list-inside space-y-2 text-gray-600">
                 {archetype.recommendations.activities.map((activity, index) => (
                   <li key={index}>{activity}</li>
                 ))}
@@ -85,7 +86,7 @@ export default function Home() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Your Character Stats</CardTitle>
+            <CardTitle>Your Stats</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             {Object.entries(stats).map(([stat, value]) => (
@@ -100,17 +101,18 @@ export default function Home() {
                 <Progress value={(value / maxPoints) * 100} className="h-2" />
               </div>
             ))}
-            <Card>
+
+            <Card className="mt-6">
               <CardHeader>
-                <CardTitle>Areas for Growth</CardTitle>
+                <CardTitle>Level Up Guide</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
+                <div className="space-y-6">
                   {Object.entries(archetype.recommendations.improvements).map(([stat, improvements]) => (
                     <div key={stat} className="space-y-2">
                       <h4 className="font-semibold flex items-center">
                         <StatIcon stat={stat} />
-                        Improve {stat.charAt(0).toUpperCase() + stat.slice(1)}:
+                        Boost your {stat}:
                       </h4>
                       <ul className="list-disc pl-5 space-y-1">
                         {improvements.map((improvement, i) => (
@@ -124,8 +126,8 @@ export default function Home() {
             </Card>
 
             <div className="flex justify-center pt-6">
-              <Button onClick={handleRetake} size="lg">
-                Retake Quiz
+              <Button onClick={handleRetake} size="lg" className="px-8">
+                Try Again
               </Button>
             </div>
           </CardContent>
