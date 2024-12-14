@@ -24,6 +24,7 @@ export default function Quiz({ onComplete }: QuizProps) {
     charisma: 0,
     constitution: 0,
   });
+  const [isAnimating, setIsAnimating] = useState(false);
 
   const question = questions[currentQuestion];
   const progress = ((currentQuestion + 1) / questions.length) * 100;
@@ -39,7 +40,6 @@ export default function Quiz({ onComplete }: QuizProps) {
   const handleSingleSelect = (value: string) => {
     const currentSelection = selections[currentQuestion]?.[0];
     
-    // If clicking the same option, unselect it
     if (currentSelection === value) {
       setSelections(prev => {
         const newSelections = { ...prev };
@@ -47,7 +47,6 @@ export default function Quiz({ onComplete }: QuizProps) {
         return newSelections;
       });
     } else {
-      // Select the new option
       setSelections(prev => ({
         ...prev,
         [currentQuestion]: [value]
@@ -86,57 +85,88 @@ export default function Quiz({ onComplete }: QuizProps) {
 
   const handleNext = () => {
     const currentSelections = selections[currentQuestion] || [];
-    updateStats(currentSelections);
-
-    if (currentQuestion < questions.length - 1) {
-      setCurrentQuestion(prev => prev + 1);
-    } else {
-      onComplete(stats);
-    }
+    setIsAnimating(true);
+    
+    setTimeout(() => {
+      updateStats(currentSelections);
+      
+      if (currentQuestion < questions.length - 1) {
+        setCurrentQuestion(prev => prev + 1);
+      } else {
+        onComplete(stats);
+      }
+      setIsAnimating(false);
+    }, 300);
   };
 
   if (!question) return null;
 
   return (
-    <Card className="w-full max-w-2xl mx-auto">
+    <Card className="w-full max-w-2xl mx-auto transition-all duration-300 ease-in-out hover:shadow-lg">
       <CardHeader>
         <CardTitle className="text-xl">
           Question {currentQuestion + 1} of {questions.length}
         </CardTitle>
-        <Progress value={progress} className="h-2" />
+        <Progress 
+          value={progress} 
+          className="h-2 transition-all duration-300 ease-in-out" 
+        />
       </CardHeader>
-      <CardContent className="space-y-6">
+      <CardContent className={`space-y-6 transition-opacity duration-300 ${isAnimating ? 'opacity-0' : 'opacity-100'}`}>
         <h3 className="text-lg font-medium">{question.text}</h3>
         
         {question.type === 'single' || question.type === 'scale' ? (
           <RadioGroup
             value={selections[currentQuestion]?.[0] || ''}
             onValueChange={handleSingleSelect}
-            className="space-y-3"
+            className="space-y-4"
           >
             {question.options.map((option) => (
-              <div key={option.id} className="flex items-center space-x-3">
-                <RadioGroupItem value={option.id} id={option.id} />
-                <Label htmlFor={option.id} className="cursor-pointer">{option.text}</Label>
+              <div key={option.id} 
+                className="relative p-4 rounded-lg border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all duration-200 cursor-pointer"
+              >
+                <div className="flex items-center space-x-3">
+                  <RadioGroupItem value={option.id} id={option.id} />
+                  <Label htmlFor={option.id} className="font-medium cursor-pointer">
+                    {option.text}
+                  </Label>
+                </div>
+                {option.subtext && (
+                  <p className="mt-1 ml-7 text-sm text-gray-500">
+                    {option.subtext}
+                  </p>
+                )}
               </div>
             ))}
           </RadioGroup>
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-4">
             {question.options.map((option) => (
-              <div key={option.id} className="flex items-center space-x-3">
-                <Checkbox
-                  id={option.id}
-                  checked={selections[currentQuestion]?.includes(option.id)}
-                  onCheckedChange={() => handleMultiSelect(option.id)}
-                />
-                <Label htmlFor={option.id} className="cursor-pointer">{option.text}</Label>
+              <div key={option.id} 
+                className="p-4 rounded-lg border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all duration-200 cursor-pointer"
+              >
+                <div className="flex items-center space-x-3">
+                  <Checkbox
+                    id={option.id}
+                    checked={selections[currentQuestion]?.includes(option.id)}
+                    onCheckedChange={() => handleMultiSelect(option.id)}
+                  />
+                  <Label htmlFor={option.id} className="font-medium cursor-pointer">
+                    {option.text}
+                  </Label>
+                </div>
+                {option.subtext && (
+                  <p className="mt-1 ml-7 text-sm text-gray-500">
+                    {option.subtext}
+                  </p>
+                )}
               </div>
             ))}
             <div className="flex justify-end pt-4">
               <Button
                 onClick={handleNext}
                 disabled={!selections[currentQuestion]?.length}
+                className="transition-all duration-200 hover:scale-105"
               >
                 Next
               </Button>
