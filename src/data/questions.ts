@@ -3,6 +3,7 @@ import { CharacterStats } from '@/types';
 export interface QuizOption {
   id: string;
   text: string;
+  subtext?: string;
   stats: Partial<CharacterStats>;
 }
 
@@ -19,10 +20,30 @@ export const questions: QuizQuestion[] = [
     text: "How do you learn best?",
     type: "single",
     options: [
-      { id: "1a", text: "Reading", stats: { intelligence: 2 } },
-      { id: "1b", text: "Watching", stats: { intelligence: 1, wisdom: 1 } },
-      { id: "1c", text: "Hands-on", stats: { dexterity: 2 } },
-      { id: "1d", text: "With others", stats: { charisma: 2 } }
+      { 
+        id: "1a", 
+        text: "Reading", 
+        subtext: "Books, manuals, forums",
+        stats: { intelligence: 2 } 
+      },
+      { 
+        id: "1b", 
+        text: "Watching", 
+        subtext: "YouTube, how-to videos, tutorials",
+        stats: { intelligence: 1, wisdom: 1 } 
+      },
+      { 
+        id: "1c", 
+        text: "Hands-on", 
+        subtext: "Practice and experimentation",
+        stats: { dexterity: 2 } 
+      },
+      { 
+        id: "1d", 
+        text: "With others", 
+        subtext: "Classes, study groups, mentoring",
+        stats: { charisma: 2 } 
+      }
     ]
   },
   {
@@ -30,10 +51,30 @@ export const questions: QuizQuestion[] = [
     text: "What's your health focus?",
     type: "multiple",
     options: [
-      { id: "2a", text: "Diet", stats: { constitution: 1 } },
-      { id: "2b", text: "Exercise", stats: { strength: 1, dexterity: 1 } },
-      { id: "2c", text: "Rest", stats: { wisdom: 1 } },
-      { id: "2d", text: "Check-ups", stats: { constitution: 1 } }
+      { 
+        id: "2a", 
+        text: "Diet", 
+        subtext: "Nutrition and meal planning",
+        stats: { constitution: 1 } 
+      },
+      { 
+        id: "2b", 
+        text: "Exercise", 
+        subtext: "Regular physical activity",
+        stats: { strength: 1, dexterity: 1 } 
+      },
+      { 
+        id: "2c", 
+        text: "Rest", 
+        subtext: "Sleep and recovery",
+        stats: { wisdom: 1 } 
+      },
+      { 
+        id: "2d", 
+        text: "Check-ups", 
+        subtext: "Regular health monitoring",
+        stats: { constitution: 1 } 
+      }
     ]
   },
   {
@@ -41,10 +82,30 @@ export const questions: QuizQuestion[] = [
     text: "Favorite way to move?",
     type: "single",
     options: [
-      { id: "3a", text: "Outdoor adventures", stats: { constitution: 2 } },
-      { id: "3b", text: "Team sports", stats: { charisma: 2 } },
-      { id: "3c", text: "Solo workouts", stats: { strength: 2 } },
-      { id: "3d", text: "Active hobbies", stats: { dexterity: 2 } }
+      { 
+        id: "3a", 
+        text: "Outdoor adventures", 
+        subtext: "Hiking, climbing, exploring",
+        stats: { constitution: 2 } 
+      },
+      { 
+        id: "3b", 
+        text: "Team sports", 
+        subtext: "Basketball, soccer, volleyball",
+        stats: { charisma: 2 } 
+      },
+      { 
+        id: "3c", 
+        text: "Solo workouts", 
+        subtext: "Gym, running, swimming",
+        stats: { strength: 2 } 
+      },
+      { 
+        id: "3d", 
+        text: "Active hobbies", 
+        subtext: "Dancing, martial arts, skating",
+        stats: { dexterity: 2 } 
+      }
     ]
   },
   {
@@ -52,10 +113,30 @@ export const questions: QuizQuestion[] = [
     text: "What energizes you?",
     type: "single",
     options: [
-      { id: "4a", text: "Challenges", stats: { strength: 1, dexterity: 1 } },
-      { id: "4b", text: "Social time", stats: { charisma: 2 } },
-      { id: "4c", text: "Me time", stats: { wisdom: 2 } },
-      { id: "4d", text: "Creating", stats: { intelligence: 2 } }
+      { 
+        id: "4a", 
+        text: "Challenges", 
+        subtext: "Pushing your limits",
+        stats: { strength: 1, dexterity: 1 } 
+      },
+      { 
+        id: "4b", 
+        text: "Social time", 
+        subtext: "Friends and connections",
+        stats: { charisma: 2 } 
+      },
+      { 
+        id: "4c", 
+        text: "Me time", 
+        subtext: "Reflection and recharging",
+        stats: { wisdom: 2 } 
+      },
+      { 
+        id: "4d", 
+        text: "Creating", 
+        subtext: "Making and learning",
+        stats: { intelligence: 2 } 
+      }
     ]
   },
   {
@@ -63,10 +144,30 @@ export const questions: QuizQuestion[] = [
     text: "Your problem-solving style?",
     type: "single",
     options: [
-      { id: "5a", text: "Plan it out", stats: { intelligence: 2 } },
-      { id: "5b", text: "Try things", stats: { dexterity: 2 } },
-      { id: "5c", text: "Ask others", stats: { charisma: 2 } },
-      { id: "5d", text: "Trust instincts", stats: { wisdom: 2 } }
+      { 
+        id: "5a", 
+        text: "Plan it out", 
+        subtext: "Research and analyze",
+        stats: { intelligence: 2 } 
+      },
+      { 
+        id: "5b", 
+        text: "Try things", 
+        subtext: "Learn through doing",
+        stats: { dexterity: 2 } 
+      },
+      { 
+        id: "5c", 
+        text: "Ask others", 
+        subtext: "Gather different perspectives",
+        stats: { charisma: 2 } 
+      },
+      { 
+        id: "5d", 
+        text: "Trust instincts", 
+        subtext: "Follow your intuition",
+        stats: { wisdom: 2 } 
+      }
     ]
   },
   {
@@ -74,10 +175,30 @@ export const questions: QuizQuestion[] = [
     text: "How do you recharge?",
     type: "multiple",
     options: [
-      { id: "6a", text: "Nature", stats: { constitution: 1 } },
-      { id: "6b", text: "Games", stats: { intelligence: 1 } },
-      { id: "6c", text: "Shows", stats: { charisma: 1 } },
-      { id: "6d", text: "Music", stats: { wisdom: 1 } }
+      { 
+        id: "6a", 
+        text: "Nature", 
+        subtext: "Outdoors and fresh air",
+        stats: { constitution: 1 } 
+      },
+      { 
+        id: "6b", 
+        text: "Games", 
+        subtext: "Puzzles and challenges",
+        stats: { intelligence: 1 } 
+      },
+      { 
+        id: "6c", 
+        text: "Shows", 
+        subtext: "Movies and entertainment",
+        stats: { charisma: 1 } 
+      },
+      { 
+        id: "6d", 
+        text: "Music", 
+        subtext: "Songs and podcasts",
+        stats: { wisdom: 1 } 
+      }
     ]
   },
   {
