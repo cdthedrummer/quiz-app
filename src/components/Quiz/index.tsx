@@ -1,7 +1,7 @@
 'use client';
+
 import { useState } from 'react';
 import { QuizQuestion } from './QuizQuestion';
-import { QuizCheckpoint } from './QuizCheckpoint';
 import { questions } from '@/src/data/questions';
 import type { CharacterStats } from '@/types';
 
@@ -21,19 +21,18 @@ export default function Quiz({ onComplete }: QuizProps) {
   });
 
   const progress = ((currentQuestion + 1) / questions.length) * 100;
-  const showCheckpoint = (currentQuestion + 1) % 4 === 0;
 
-  const handleAnswer = (selectedStats: string[]) => {
-    // Update stats based on answer
+  const handleAnswer = (selectedOption: any) => {
+    // Update stats based on the selected option's stats
     const newStats = { ...stats };
-    selectedStats.forEach(stat => {
-      newStats[stat.toLowerCase() as keyof CharacterStats] += 1;
+    Object.entries(selectedOption.stats).forEach(([stat, value]) => {
+      newStats[stat as keyof CharacterStats] += value as number;
     });
     setStats(newStats);
 
-    // Show checkpoint or move to next question
+    // Move to next question or complete quiz
     setTimeout(() => {
-      if (currentQuestion === questions.length - 1) {
+      if (currentQuestion >= questions.length - 1) {
         onComplete(newStats);
       } else {
         setCurrentQuestion(prev => prev + 1);
@@ -41,32 +40,22 @@ export default function Quiz({ onComplete }: QuizProps) {
     }, 500);
   };
 
-  const handleContinue = () => {
-    if (currentQuestion === questions.length - 1) {
-      onComplete(stats);
-    } else {
-      setCurrentQuestion(prev => prev + 1);
-    }
-  };
-
   return (
-    <div className="w-full max-w-2xl mx-auto">
-      {showCheckpoint ? (
-        <QuizCheckpoint
-          currentStats={stats}
-          questionNumber={currentQuestion + 1}
-          totalQuestions={questions.length}
-          onContinue={handleContinue}
-        />
-      ) : (
-        <QuizQuestion
-          question={questions[currentQuestion]}
-          currentQuestion={currentQuestion + 1}
-          totalQuestions={questions.length}
-          progress={progress}
-          onAnswer={handleAnswer}
-        />
-      )}
+    <div className="w-full px-4 py-8 min-h-screen bg-gradient-to-b from-white to-gray-50">
+      <h1 className="text-4xl font-bold text-center mb-2">
+        Build Your Character
+      </h1>
+      <p className="text-center text-gray-600 mb-8">
+        Discover your strengths and find ways to level up!
+      </p>
+
+      <QuizQuestion
+        question={questions[currentQuestion]}
+        currentQuestion={currentQuestion + 1}
+        totalQuestions={questions.length}
+        progress={progress}
+        onAnswer={handleAnswer}
+      />
     </div>
   );
 }
