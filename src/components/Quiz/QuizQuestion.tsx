@@ -12,7 +12,7 @@ interface QuizQuestionProps {
   currentQuestion: number;
   totalQuestions: number;
   progress: number;
-  onAnswer: (selectedOption: any) => void;
+  onAnswer: (option: any) => void;
 }
 
 const statIcons: Record<string, string> = {
@@ -32,69 +32,77 @@ export function QuizQuestion({
   onAnswer
 }: QuizQuestionProps) {
   return (
-    <motion.div
-      key={question.id}
-      initial={{ opacity: 0, x: 20 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -20 }}
-      className="w-full p-4"
-    >
-      <div className="mb-8">
-        <div className="flex justify-between mb-2">
-          <span className="text-sm text-muted-foreground">
+    <div className="min-h-[70vh] flex flex-col justify-start items-center w-full max-w-2xl mx-auto px-4">
+      {/* Progress section */}
+      <div className="w-full mb-8">
+        <div className="flex justify-between items-center mb-2">
+          <span className="text-sm text-gray-600">
             Question {currentQuestion} of {totalQuestions}
           </span>
-          <span className="text-sm text-muted-foreground">
+          <span className="text-sm text-gray-600">
             {Math.round(progress)}% Complete
           </span>
         </div>
-        <Progress value={progress} />
+        <Progress value={progress} className="h-2" />
       </div>
 
-      <Card>
+      {/* Question Card */}
+      <Card className="w-full bg-white shadow-lg">
         <CardContent className="pt-6">
           <h2 className="text-2xl font-bold mb-6">{question.text}</h2>
           
-          <RadioGroup onValueChange={(value) => {
-            const option = question.options.find(opt => opt.id === value);
-            if (option) {
-              onAnswer(option);
-            }
-          }}>
-            <div className="space-y-4">
-              {question.options.map((option) => (
-                <motion.div
-                  key={option.id}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+          <RadioGroup 
+            className="space-y-4"
+            onValueChange={(value) => {
+              const selectedOption = question.options.find(opt => opt.id === value);
+              if (selectedOption) {
+                onAnswer(selectedOption);
+              }
+            }}
+          >
+            {question.options.map((option) => (
+              <motion.div
+                key={option.id}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="relative"
+              >
+                <Label
+                  htmlFor={option.id}
+                  className="flex items-start space-x-4 p-4 border rounded-lg cursor-pointer hover:bg-blue-50 hover:border-blue-300 transition-all duration-200"
                 >
-                  <Label
-                    htmlFor={option.id}
-                    className="flex items-center space-x-3 p-4 border rounded-lg cursor-pointer hover:bg-accent"
-                  >
-                    <RadioGroupItem value={option.id} id={option.id} />
-                    <div className="flex-1">
-                      <div className="font-medium">{option.text}</div>
-                      {option.subtext && (
-                        <div className="text-sm text-muted-foreground mt-1">
-                          {option.subtext}
-                        </div>
-                      )}
-                    </div>
-                    <div className="flex gap-2">
-                      {Object.entries(option.stats).map(([stat, value]) => (
-                        <span key={stat} className="text-xl" role="img" aria-label={stat}>
-                          {statIcons[stat.toLowerCase()]}
-                        </span>
-                      ))}
-                    </div>
-                  </Label>
-                </motion.div>
-              ))}
-            </div>
+                  <RadioGroupItem 
+                    value={option.id} 
+                    id={option.id}
+                    className="mt-1"
+                  />
+                  <div className="flex-1">
+                    <p className="font-medium text-gray-900">{option.text}</p>
+                    {option.subtext && (
+                      <p className="text-sm text-gray-500 mt-1">
+                        {option.subtext}
+                      </p>
+                    )}
+                  </div>
+                  <div className="flex gap-2 flex-shrink-0">
+                    {Object.entries(option.stats).map(([stat, value]) => (
+                      <span 
+                        key={stat} 
+                        className="text-xl" 
+                        role="img" 
+                        aria-label={`${stat} ${value}`}
+                        title={`${stat} +${value}`}
+                      >
+                        {statIcons[stat.toLowerCase()]}
+                      </span>
+                    ))}
+                  </div>
+                </Label>
+              </motion.div>
+            ))}
           </RadioGroup>
         </CardContent>
       </Card>
-    </motion.div>
+    </div>
   );
 }
