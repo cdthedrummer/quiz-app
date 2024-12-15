@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
@@ -12,10 +11,10 @@ interface QuizQuestionProps {
   currentQuestion: number;
   totalQuestions: number;
   progress: number;
-  onAnswer: (option: any) => void;
+  onAnswer: (selectedOption: any) => void;
 }
 
-const statIcons: Record<string, string> = {
+const statIcons = {
   strength: '💪',
   intelligence: '🧠',
   wisdom: '🔮',
@@ -32,22 +31,20 @@ export function QuizQuestion({
   onAnswer
 }: QuizQuestionProps) {
   return (
-    <div className="min-h-[70vh] flex flex-col justify-start items-center w-full max-w-2xl mx-auto px-4">
-      {/* Progress section */}
-      <div className="w-full mb-8">
-        <div className="flex justify-between items-center mb-2">
-          <span className="text-sm text-gray-600">
+    <div className="w-full max-w-2xl mx-auto px-4">
+      <div className="mb-8">
+        <div className="flex justify-between mb-2">
+          <span className="text-sm text-muted-foreground">
             Question {currentQuestion} of {totalQuestions}
           </span>
-          <span className="text-sm text-gray-600">
+          <span className="text-sm text-muted-foreground">
             {Math.round(progress)}% Complete
           </span>
         </div>
-        <Progress value={progress} className="h-2" />
+        <Progress value={progress} />
       </div>
 
-      {/* Question Card */}
-      <Card className="w-full bg-white shadow-lg">
+      <Card>
         <CardContent className="pt-6">
           <h2 className="text-2xl font-bold mb-6">{question.text}</h2>
           
@@ -61,15 +58,10 @@ export function QuizQuestion({
             }}
           >
             {question.options.map((option) => (
-              <motion.div
-                key={option.id}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="relative"
-              >
+              <div key={option.id} className="relative">
                 <Label
                   htmlFor={option.id}
-                  className="flex items-start space-x-4 p-4 border rounded-lg cursor-pointer hover:bg-blue-50 hover:border-blue-300 transition-all duration-200"
+                  className="flex items-start space-x-4 p-4 border rounded-lg cursor-pointer hover:bg-accent"
                 >
                   <RadioGroupItem 
                     value={option.id} 
@@ -77,28 +69,27 @@ export function QuizQuestion({
                     className="mt-1"
                   />
                   <div className="flex-1">
-                    <p className="font-medium text-gray-900">{option.text}</p>
+                    <p className="font-medium">{option.text}</p>
                     {option.subtext && (
-                      <p className="text-sm text-gray-500 mt-1">
+                      <p className="text-sm text-muted-foreground mt-1">
                         {option.subtext}
                       </p>
                     )}
                   </div>
-                  <div className="flex gap-2 flex-shrink-0">
+                  <div className="flex gap-2">
                     {Object.entries(option.stats).map(([stat, value]) => (
                       <span 
                         key={stat} 
                         className="text-xl" 
                         role="img" 
                         aria-label={`${stat} ${value}`}
-                        title={`${stat} +${value}`}
                       >
                         {statIcons[stat.toLowerCase()]}
                       </span>
                     ))}
                   </div>
                 </Label>
-              </motion.div>
+              </div>
             ))}
           </RadioGroup>
         </CardContent>
