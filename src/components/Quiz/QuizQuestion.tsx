@@ -5,14 +5,14 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
-import type { Question } from '@/types';
+import type { QuizQuestion as QuestionType } from '@/src/data/questions';
 
 interface QuizQuestionProps {
-  question: Question;
+  question: QuestionType;
   currentQuestion: number;
   totalQuestions: number;
   progress: number;
-  onAnswer: (stats: string[]) => void;
+  onAnswer: (selectedOption: any) => void;
 }
 
 const statIcons: Record<string, string> = {
@@ -56,33 +56,33 @@ export function QuizQuestion({
           <h2 className="text-2xl font-bold mb-6">{question.text}</h2>
           
           <RadioGroup onValueChange={(value) => {
-            const option = question.options.find(opt => opt.text === value);
-            if (option?.stats) {
-              onAnswer(option.stats);
+            const option = question.options.find(opt => opt.id === value);
+            if (option) {
+              onAnswer(option);
             }
           }}>
             <div className="space-y-4">
-              {question.options.map((option, index) => (
+              {question.options.map((option) => (
                 <motion.div
-                  key={index}
+                  key={option.id}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
                   <Label
-                    htmlFor={`option-${index}`}
+                    htmlFor={option.id}
                     className="flex items-center space-x-3 p-4 border rounded-lg cursor-pointer hover:bg-accent"
                   >
-                    <RadioGroupItem value={option.text} id={`option-${index}`} />
+                    <RadioGroupItem value={option.id} id={option.id} />
                     <div className="flex-1">
                       <div className="font-medium">{option.text}</div>
-                      {option.description && (
+                      {option.subtext && (
                         <div className="text-sm text-muted-foreground mt-1">
-                          {option.description}
+                          {option.subtext}
                         </div>
                       )}
                     </div>
                     <div className="flex gap-2">
-                      {option.stats?.map(stat => (
+                      {Object.entries(option.stats).map(([stat, value]) => (
                         <span key={stat} className="text-xl" role="img" aria-label={stat}>
                           {statIcons[stat.toLowerCase()]}
                         </span>
