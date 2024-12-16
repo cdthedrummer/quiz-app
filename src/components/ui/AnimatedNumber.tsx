@@ -1,39 +1,25 @@
-import { useEffect, useState } from 'react';
+import { motion, useSpring, useMotionValue, useTransform } from 'framer-motion';
+import { useEffect } from 'react';
 
 interface AnimatedNumberProps {
   value: number;
   duration?: number;
 }
 
-export function AnimatedNumber({ value, duration = 500 }: AnimatedNumberProps) {
-  const [displayValue, setDisplayValue] = useState(0);
+export function AnimatedNumber({ value, duration = 0.5 }: AnimatedNumberProps) {
+  const count = useMotionValue(0);
+  const rounded = useTransform(count, latest => latest.toFixed(1));
 
   useEffect(() => {
-    let startTime: number;
-    let animationFrame: number;
-    const startValue = displayValue;
+    const controls = useSpring(count, {
+      from: 0,
+      to: value,
+      duration: duration * 1000,
+      bounce: 0
+    });
 
-    const animate = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const progress = timestamp - startTime;
-
-      if (progress < duration) {
-        const newValue = startValue + ((value - startValue) * progress) / duration;
-        setDisplayValue(newValue);
-        animationFrame = requestAnimationFrame(animate);
-      } else {
-        setDisplayValue(value);
-      }
-    };
-
-    animationFrame = requestAnimationFrame(animate);
-
-    return () => {
-      if (animationFrame) {
-        cancelAnimationFrame(animationFrame);
-      }
-    };
+    return () => controls.stop();
   }, [value, duration]);
 
-  return <span className="transition-all duration-300">{displayValue.toFixed(1)}</span>;
+  return <motion.span>{rounded}</motion.span>;
 }
