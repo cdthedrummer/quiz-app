@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Quiz App - Personal Development RPG
 
-## Getting Started
+A Next.js application that gamifies personal development by turning self-improvement into an RPG-style experience.
 
-First, run the development server:
+## 🚀 Quick Start
 
 ```bash
+git checkout reset3
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to start your journey!
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📁 Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+src/
+├── components/     # React components
+│   ├── ui/        # Reusable UI components
+│   └── quiz/      # Quiz-specific components
+├── config/        # App configuration
+├── hooks/         # Custom React hooks
+├── types/         # TypeScript definitions
+└── utils/         # Helper functions
+```
 
-## Learn More
+## 🎮 Features
 
-To learn more about Next.js, take a look at the following resources:
+- D&D-inspired character building
+- Real-time stat tracking
+- Smooth animations
+- Mobile-responsive design
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🛠️ Tech Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Next.js 14
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
 
-## Deploy on Vercel
+## 📦 Dependencies
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+All dependencies are locked to specific versions to ensure consistency. Core dependencies include:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- React 18.2.0
+- Next.js 14.0.4
+- TypeScript 5.3.3
+
+## 🧩 Components
+
+### UI Components
+
+- `StatIcon`: Displays stat-specific icons with tooltips
+- `AnimatedNumber`: Smoothly animates number changes
+- `ProgressBar`: Shows quiz progress
+
+### Quiz Components
+
+- `QuizQuestion`: Handles question display and user input
+- `QuizResults`: Shows final stats and recommendations
+
+## 🔄 State Management
+
+Uses React's built-in hooks with TypeScript for type-safe state management:
+
+```typescript
+const { state, updateStats, setAnswer } = useQuizState();
+```
+
+## 🎨 Styling
+
+Uses Tailwind CSS with custom animations and transitions. All styles are consistent with shadcn/ui design system.
+
+## 📱 Responsive Design
+
+Built with a mobile-first approach, ensuring a great experience on all devices.
+
+## 🔜 Upcoming Features
+
+- Enhanced animations
+- Personalized recommendations
+- Progress saving
+- Social sharing
+
+## 🤝 Contributing
+
+1. Always branch from `reset3`
+2. Ensure all components are properly typed
+3. Follow the existing code structure
+4. Test on both mobile and desktop
+
+## 📝 Development Guidelines
+
+1. Keep components small and focused
+2. Use TypeScript strictly
+3. Follow existing naming conventions
+4. Document new features
+5. Test cross-browser compatibility
