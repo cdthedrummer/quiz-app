@@ -1,95 +1,62 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import type { CharacterStats } from '@/types';
-import { questions } from '../data/questions';
-import { QuizProgress } from './quiz/QuizProgress';
-import { QuizQuestion } from './quiz/QuizQuestion';
-import { useQuizStats } from '../hooks/useQuizStats';
 
-interface QuizProps {
-  onComplete: (stats: CharacterStats) => void;
-}
+import { useState } from 'react';
+import { QuizQuestion } from './QuizQuestion';
+import { QuizProgress } from './QuizProgress';
+import { QuizResults } from './QuizResults';
+import { questions } from '@/data/questions';
+import { calculateStats } from '@/utils/calculateStats';
 
-export default function Quiz({ onComplete }: QuizProps) {
+export function Quiz() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [selections, setSelections] = useState<Record<number, string[]>>({});
-  const [isAnimating, setIsAnimating] = useState(false);
-  const { stats, updateStats } = useQuizStats();
-
-  const question = questions[currentQuestion];
-
-  // Handle auto-advance for single/scale questions
-  useEffect(() => {
-    const currentSelections = selections[currentQuestion] || [];
-    if (currentSelections.length > 0 && 
-        (question.type === 'single' || question.type === 'scale')) {
-      handleNext();
-    }
-  }, [selections, currentQuestion]);
+  const [answers, setAnswers] = useState<Record<number, string[]>>({});
+  const [showResults, setShowResults] = useState(false);
 
   const handleSelect = (value: string) => {
-    const isSingleSelect = question.type === 'single' || question.type === 'scale';
-    
-    setSelections(prev => {
-      const currentSelections = prev[currentQuestion] || [];
-      let newSelections: string[];
+    setAnswers(prev => {
+      const current = prev[currentQuestion] || [];
+      const question = questions[currentQuestion];
 
-      if (isSingleSelect) {
-        newSelections = currentSelections[0] === value ? [] : [value];
-      } else {
-        newSelections = currentSelections.includes(value)
-          ? currentSelections.filter(v => v !== value)
-          : [...currentSelections, value];
+      if (question.type === 'multiple') {
+        return {
+          ...prev,
+          [currentQuestion]: current.includes(value)
+            ? current.filter(v => v !== value)
+            : [...current, value]
+        };
       }
 
       return {
         ...prev,
-        [currentQuestion]: newSelections
+        [currentQuestion]: [value]
       };
     });
   };
 
   const handleNext = () => {
-    if (isAnimating) return; // Prevent multiple triggers
-
-    const currentSelections = selections[currentQuestion] || [];
-    setIsAnimating(true);
-    
-    setTimeout(() => {
-      updateStats(question, currentSelections);
-      
-      if (currentQuestion < questions.length - 1) {
-        setCurrentQuestion(prev => prev + 1);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        onComplete(stats);
-      }
-      setIsAnimating(false);
-    }, 300);
+    if (currentQuestion < questions.length - 1) {
+      setCurrentQuestion(prev => prev + 1);
+    } else {
+      setShowResults(true);
+    }
   };
 
-  if (!question) return null;
+  if (showResults) {
+    return <QuizResults stats={calculateStats(answers)} />;
+  }
 
   return (
-    <Card className="w-full max-w-2xl mx-auto transition-all duration-300 ease-in-out hover:shadow-lg overflow-hidden">
-      <CardHeader className="pb-2 px-4 md:px-6 sticky top-0 bg-white/95 backdrop-blur-sm z-10 shadow-sm">
-        <QuizProgress 
-          current={currentQuestion} 
-          total={questions.length} 
-        />
-      </CardHeader>
-      <CardContent 
-        className={`transition-opacity duration-300 px-4 md:px-6
-          ${isAnimating ? 'opacity-0' : 'opacity-100'}`}
-      >
-        <QuizQuestion
-          question={question}
-          selections={selections[currentQuestion] || []}
-          onSelect={handleSelect}
-          onNext={question.type === 'multiple' ? handleNext : undefined}
-        />
-      </CardContent>
-    </Card>
+    <div className="max-w-2xl mx-auto space-y-6">
+      <QuizProgress 
+        current={currentQuestion} 
+        total={questions.length} 
+      />
+      <QuizQuestion
+        question={questions[currentQuestion]}
+        selected={answers[currentQuestion] || []}
+        onSelect={handleSelect}
+        onNext={handleNext}
+      />
+    </div>
   );
 }
