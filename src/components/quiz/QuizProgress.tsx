@@ -9,8 +9,8 @@ export function QuizProgress({ current, total }: QuizProgressProps) {
   const percentage = Math.round((current / total) * 100);
   
   return (
-    <div className="w-full">
-      <div className="flex justify-between mb-1 text-sm text-gray-600">
+    <div className="w-full p-4">
+      <div className="flex justify-between text-sm text-gray-600 mb-2">
         <span>Question {current + 1} of {total}</span>
         <span>{percentage}%</span>
       </div>

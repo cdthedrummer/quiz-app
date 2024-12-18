@@ -14,7 +14,7 @@ interface QuizQuestionProps {
 export function QuizQuestion({ question, selections, onSelect, onNext }: QuizQuestionProps) {
   return (
     <div className="p-6 bg-white rounded-lg shadow-lg">
-      <h3 className="text-xl font-medium mb-4">{question.text}</h3>
+      <h3 className="text-xl font-medium mb-6">{question.text}</h3>
       
       <div className="space-y-3">
         {question.options.map((option) => (
@@ -43,7 +43,7 @@ export function QuizQuestion({ question, selections, onSelect, onNext }: QuizQue
       {onNext && question.type === 'multiple' && (
         <button
           onClick={onNext}
-          className="mt-6 px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
+          className="mt-6 px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
         >
           Next
         </button>
