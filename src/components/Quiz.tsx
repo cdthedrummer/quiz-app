@@ -19,7 +19,6 @@ export default function Quiz({ onComplete }: QuizProps) {
 
   const question = questions[currentQuestion];
 
-  // Handle auto-advance for single/scale questions
   useEffect(() => {
     const currentSelections = selections[currentQuestion] || [];
     if (currentSelections.length > 0 && 
@@ -51,7 +50,7 @@ export default function Quiz({ onComplete }: QuizProps) {
   };
 
   const handleNext = () => {
-    if (isAnimating) return; // Prevent multiple triggers
+    if (isAnimating) return;
 
     const currentSelections = selections[currentQuestion] || [];
     setIsAnimating(true);
