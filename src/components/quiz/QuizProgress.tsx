@@ -1,6 +1,4 @@
-'use client';
-
-import { Progress } from '@/components/ui/progress';
+import React from 'react';
 
 interface QuizProgressProps {
   current: number;
@@ -8,18 +6,20 @@ interface QuizProgressProps {
 }
 
 export function QuizProgress({ current, total }: QuizProgressProps) {
-  const progress = ((current + 1) / total) * 100;
-
+  const percentage = Math.round((current / total) * 100);
+  
   return (
-    <div className="w-full space-y-1">
-      <div className="flex justify-between text-sm text-slate-600">
+    <div className="w-full">
+      <div className="flex justify-between mb-1 text-sm text-gray-600">
         <span>Question {current + 1} of {total}</span>
-        <span>{Math.round(progress)}% Complete</span>
+        <span>{percentage}%</span>
       </div>
-      <Progress 
-        value={progress} 
-        className="h-1.5 transition-all duration-300 ease-in-out" 
-      />
+      <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+        <div 
+          className="h-full bg-blue-500 transition-all duration-300 ease-out"
+          style={{ width: `${percentage}%` }}
+        />
+      </div>
     </div>
   );
 }
