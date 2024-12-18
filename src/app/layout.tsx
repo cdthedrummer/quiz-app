@@ -1,22 +1,22 @@
-import '@/styles/globals.css'
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-
-const inter = Inter({ subsets: ['latin'] })
+import '@/styles/globals.css';
+import { GeistSans } from 'geist/font/sans';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Build Your Character',
   description: 'Discover your strengths and find ways to level up!',
-}
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" className={GeistSans.className}>
+      <body className="min-h-screen bg-background">
+        {children}
+      </body>
     </html>
-  )
+  );
 }
