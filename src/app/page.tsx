@@ -1,6 +1,7 @@
 'use client';
 
-import { Quiz } from '@/components/Quiz';
+import { useState } from 'react';
+import { Quiz } from '@/components';
 
 export default function Home() {
   return (
