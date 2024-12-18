@@ -1,28 +1,54 @@
 import React from 'react';
+import { Button } from '../common/Button';
 
-interface QuizQuestionProps {
+type QuizQuestionProps = {
   question: {
     text: string;
     type: 'single' | 'multiple' | 'scale';
-    options: { value: string; label: string }[];
+    options: Array<{
+      value: string;
+      label: string;
+    }>;
   };
+  currentQuestion: number;
+  totalQuestions: number;
   selections: string[];
   onSelect: (value: string) => void;
-  onNext?: () => void;
-}
+  onNext: () => void;
+};
 
-export function QuizQuestion({ question, selections, onSelect, onNext }: QuizQuestionProps) {
+export function QuizQuestion({
+  question,
+  currentQuestion,
+  totalQuestions,
+  selections,
+  onSelect,
+  onNext,
+}: QuizQuestionProps) {
   return (
-    <div className="p-6 bg-white rounded-lg shadow-lg">
+    <div className="w-full max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+      <div className="mb-8">
+        <div className="flex justify-between text-sm text-gray-600 mb-2">
+          <span>Question {currentQuestion + 1} of {totalQuestions}</span>
+          <span>{Math.round(((currentQuestion + 1) / totalQuestions) * 100)}%</span>
+        </div>
+        <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+          <div 
+            className="h-full bg-blue-500 transition-all duration-300"
+            style={{ width: `${((currentQuestion + 1) / totalQuestions) * 100}%` }}
+          />
+        </div>
+      </div>
+
       <h3 className="text-xl font-medium mb-6">{question.text}</h3>
       
       <div className="space-y-3">
         {question.options.map((option) => (
           <label
             key={option.value}
-            className={`block p-4 rounded border-2 cursor-pointer transition-all
-              ${selections.includes(option.value) 
-                ? 'bg-blue-50 border-blue-500' 
+            className={`block p-4 rounded-lg border-2 cursor-pointer transition-all
+              ${selections.includes(option.value)
+                ? 'bg-blue-50 border-blue-500'
                 : 'bg-white hover:bg-gray-50 border-gray-200'}`}
           >
             <div className="flex items-center">
@@ -40,13 +66,13 @@ export function QuizQuestion({ question, selections, onSelect, onNext }: QuizQue
         ))}
       </div>
 
-      {onNext && question.type === 'multiple' && (
-        <button
+      {(question.type === 'multiple' || selections.length > 0) && (
+        <Button
           onClick={onNext}
-          className="mt-6 px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+          className="mt-6"
         >
           Next
-        </button>
+        </Button>
       )}
     </div>
   );
